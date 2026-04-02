@@ -194,6 +194,14 @@ export default function AdminDashboardPage() {
 
       {/* Main */}
       <div className="admin-main">
+        <div className="admin-mobile-bar">
+          <div>🔨 Réseau<span>Artisans</span></div>
+          <button onClick={logout}>Déconnexion</button>
+        </div>
+        <div className="admin-mobile-tabs">
+          <button className={`admin-mobile-tab ${tab === 'artisans' ? 'active' : ''}`} onClick={() => setTab('artisans')}>🔧 Artisans</button>
+          <button className={`admin-mobile-tab ${tab === 'projects' ? 'active' : ''}`} onClick={() => setTab('projects')}>🏠 Projets</button>
+        </div>
         <header className="admin-header">
           <h1>{tab === 'artisans' ? 'Inscriptions Artisans' : 'Projets Particuliers'}</h1>
         </header>

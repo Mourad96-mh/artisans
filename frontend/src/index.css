@@ -2838,3 +2838,131 @@ input, textarea, select { font-family: inherit; }
     grid-template-columns: 1fr;
   }
 }
+
+/* ===== MOBILE DASHBOARD BARS ===== */
+.admin-mobile-bar,
+.artisan-mobile-bar {
+  display: none;
+  align-items: center;
+  justify-content: space-between;
+  padding: 14px 16px;
+  background: var(--color-dark);
+  color: white;
+  font-size: 1rem;
+  font-weight: 700;
+  flex-shrink: 0;
+}
+
+.admin-mobile-bar span,
+.artisan-mobile-bar span { color: var(--color-primary); }
+
+.admin-mobile-bar button,
+.artisan-mobile-bar button {
+  font-size: 0.82rem;
+  color: rgba(255,255,255,0.7);
+  border: 1px solid rgba(255,255,255,0.25);
+  border-radius: var(--radius-sm);
+  padding: 6px 12px;
+  transition: all var(--transition);
+}
+
+.admin-mobile-bar button:hover,
+.artisan-mobile-bar button:hover {
+  color: white;
+  border-color: white;
+}
+
+.admin-mobile-tabs {
+  display: none;
+  border-bottom: 1px solid var(--color-border);
+  background: var(--color-white);
+  flex-shrink: 0;
+}
+
+.admin-mobile-tab {
+  flex: 1;
+  padding: 12px 8px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--color-gray);
+  text-align: center;
+  border-bottom: 2px solid transparent;
+  background: none;
+  transition: all var(--transition);
+}
+
+.admin-mobile-tab.active {
+  color: var(--color-primary);
+  border-bottom-color: var(--color-primary);
+}
+
+/* ===== ADDITIONAL RESPONSIVE ===== */
+@media (max-width: 768px) {
+  /* Dashboards */
+  .artisan-sidebar { display: none; }
+  .admin-mobile-bar,
+  .artisan-mobile-bar { display: flex; }
+  .admin-mobile-tabs { display: flex; }
+  .admin-layout,
+  .artisan-layout { flex-direction: column; }
+  .admin-main,
+  .artisan-main { overflow: visible; }
+
+  /* Artisan content */
+  .artisan-content { padding: 16px; gap: 20px; }
+  .artisan-projects-grid { grid-template-columns: 1fr; }
+  .artisan-empty { padding: 32px 20px; }
+
+  /* Subscription card */
+  .subscription-card { flex-direction: column; align-items: flex-start; padding: 20px; }
+  .subscription-card-right { text-align: left; width: 100%; }
+
+  /* Section padding */
+  .section { padding: 56px 0; }
+  .section-sm { padding: 40px 0; }
+  .hero { padding: 64px 0 48px; }
+  .artisan-banner { padding: 56px 0; }
+  .cta-section { padding: 56px 0; }
+  .devenir-pro-content { padding: 48px 0; }
+  .contact-content { padding: 48px 0; }
+  .page-hero { padding: 48px 0; }
+  .page-hero h1 { font-size: 2rem; }
+
+  /* Login card */
+  .admin-login-card { padding: 32px 24px; }
+
+  /* Modal - slides up from bottom on mobile */
+  .modal-overlay { align-items: flex-end; padding: 0; }
+  .modal-card {
+    max-width: 100%;
+    border-radius: var(--radius-md) var(--radius-md) 0 0;
+    padding: 28px 20px 36px;
+    margin: 0;
+  }
+
+  /* Cards */
+  .clients-free-card { padding: 32px 20px; }
+  .form-card { padding: 32px 20px; }
+}
+
+@media (max-width: 480px) {
+  .hero { padding: 48px 0 40px; }
+  .hero-content h1 { font-size: 1.75rem; }
+  .section { padding: 44px 0; }
+  .section-header h2 { font-size: 1.5rem; }
+  .cta-section h2 { font-size: 1.6rem; }
+  .page-hero h1 { font-size: 1.6rem; }
+  .page-hero p { font-size: 0.95rem; }
+  .artisan-banner-content h2 { font-size: 1.5rem; }
+  .artisan-project-meta { flex-wrap: wrap; gap: 6px; }
+  .admin-login-card { padding: 28px 16px; }
+  .artisan-content { padding: 12px; }
+  .admin-stats { padding: 12px; gap: 10px; }
+  .admin-header { padding: 12px 16px; }
+  .admin-filters { padding: 0 12px 12px; }
+  .admin-table-wrapper { padding: 0 12px 12px; }
+  .hero-stats-row { padding: 16px; }
+  .hero-stat-item .value { font-size: 1.4rem; }
+  .form-card { padding: 24px 16px; }
+  .clients-free-card { padding: 28px 16px; }
+}

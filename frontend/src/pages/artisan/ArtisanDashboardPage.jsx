@@ -65,6 +65,10 @@ export default function ArtisanDashboardPage() {
 
       {/* Main */}
       <div className="artisan-main">
+        <div className="artisan-mobile-bar">
+          <div>🔨 Réseau<span>Artisans</span></div>
+          <button onClick={logout}>Déconnexion</button>
+        </div>
         <header className="admin-header">
           <h1>Tableau de bord</h1>
         </header>
