@@ -1,5 +1,11 @@
 const BASE = import.meta.env.VITE_API_URL || 'http://localhost:5000';
 
+export function startKeepAlive() {
+  const ping = () => fetch(`${BASE}/ping`).catch(() => {});
+  ping();
+  return setInterval(ping, 14 * 60 * 1000); // every 14 min
+}
+
 function getToken() {
   return localStorage.getItem('admin_token');
 }

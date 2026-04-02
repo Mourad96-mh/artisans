@@ -17,6 +17,7 @@ app.use('/api/projects', require('./routes/projects'));
 app.use('/api/artisan', require('./routes/artisan'));
 
 app.get('/', (req, res) => res.json({ message: 'Artisan API running' }));
+app.get('/ping', (req, res) => res.json({ status: 'ok' }));
 
 // Connect to MongoDB then start server
 mongoose

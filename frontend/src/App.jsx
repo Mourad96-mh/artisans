@@ -1,5 +1,7 @@
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
+import { useEffect } from 'react';
 import './i18n';
+import { startKeepAlive } from './services/api';
 import { AdminAuthProvider, useAdminAuth } from './context/AdminAuthContext';
 import { ArtisanAuthProvider, useArtisanAuth } from './context/ArtisanAuthContext';
 import ArtisanLoginPage from './pages/artisan/ArtisanLoginPage';
@@ -47,6 +49,11 @@ function PublicRoutes() {
 }
 
 export default function App() {
+  useEffect(() => {
+    const id = startKeepAlive();
+    return () => clearInterval(id);
+  }, []);
+
   return (
     <AdminAuthProvider>
       <ArtisanAuthProvider>
