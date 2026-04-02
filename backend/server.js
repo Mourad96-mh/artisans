@@ -6,7 +6,8 @@ const Admin = require('./models/Admin');
 
 const app = express();
 
-app.use(cors({ origin: 'http://localhost:5173' }));
+const allowedOrigins = ['http://localhost:5173', process.env.CLIENT_URL].filter(Boolean);
+app.use(cors({ origin: allowedOrigins }));
 app.use(express.json());
 
 // Routes
