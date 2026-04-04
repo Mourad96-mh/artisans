@@ -1,5 +1,6 @@
 const express = require('express');
 const Registration = require('../models/Registration');
+const ArtisanUser = require('../models/ArtisanUser');
 const authMiddleware = require('../middleware/auth');
 
 const router = express.Router();
@@ -91,6 +92,7 @@ router.patch('/:id/renew', authMiddleware, async (req, res) => {
 router.delete('/:id', authMiddleware, async (req, res) => {
   try {
     await Registration.findByIdAndDelete(req.params.id);
+    await ArtisanUser.deleteOne({ registration: req.params.id });
     res.json({ message: 'Deleted' });
   } catch (err) {
     res.status(500).json({ message: err.message });

@@ -112,6 +112,7 @@ export default function AdminDashboardPage() {
     await deleteRegistration(id);
     setRegistrations((prev) => prev.filter((r) => r._id !== id));
     fetchStats().then(setRegStats).catch(() => {});
+    fetchArtisanAccounts().then(setArtisanAccounts).catch(() => {});
   };
 
   const handleRenew = async (id) => {
@@ -454,10 +455,10 @@ export default function AdminDashboardPage() {
                               onChange={(e) => handleAssign(p._id, e.target.value || null)}
                             >
                               <option value="">— Non assigné —</option>
-                              {artisanAccounts.map((a) => (
+                              {artisanAccounts.filter((a) => a.registration).map((a) => (
                                 <option key={a._id} value={a._id}>
-                                  {a.registration?.company || a.email}
-                                  {a.registration?.plan ? ` — ${a.registration.plan === 'premium' ? 'Premium' : 'Découverte'}` : ''}
+                                  {a.registration.company || a.email}
+                                  {a.registration.plan ? ` — ${a.registration.plan === 'premium' ? 'Premium' : 'Découverte'}` : ''}
                                 </option>
                               ))}
                             </select>
