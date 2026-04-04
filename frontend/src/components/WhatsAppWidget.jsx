@@ -20,8 +20,8 @@ const WhatsAppIcon = ({ size = 24 }) => (
   </svg>
 );
 
-const ARTISAN_INITIAL = { company: '', firstName: '', lastName: '', email: '', phone: '', postalCode: '', trade: '', comments: '', terms: false };
-const CLIENT_INITIAL  = { name: '', postalCode: '', email: '', phone: '', trade: '', description: '', terms: false };
+const ARTISAN_INITIAL = { company: '', firstName: '', lastName: '', email: '', phone: '', postalCode: '', trade: '', otherTrade: '', comments: '', terms: false };
+const CLIENT_INITIAL  = { name: '', postalCode: '', email: '', phone: '', trade: '', otherTrade: '', description: '', terms: false };
 
 export default function WhatsAppWidget() {
   const [open, setOpen]         = useState(false);
@@ -47,7 +47,7 @@ export default function WhatsAppWidget() {
     e.preventDefault();
     let text;
     if (userType === 'artisan') {
-      const trade = TRADES_FR[artisan.trade] || artisan.trade;
+      const trade = artisan.trade === 'other' ? artisan.otherTrade : (TRADES_FR[artisan.trade] || artisan.trade);
       text = `Bonjour, je souhaite rejoindre Réseau Artisans.\n`
            + `Entreprise : ${artisan.company}\n`
            + `Nom : ${artisan.firstName} ${artisan.lastName}\n`
@@ -57,7 +57,7 @@ export default function WhatsAppWidget() {
            + `Métier : ${trade}`
            + (artisan.comments ? `\nCommentaires : ${artisan.comments}` : '');
     } else {
-      const trade  = TRADES_FR[client.trade] || client.trade;
+      const trade = client.trade === 'other' ? client.otherTrade : (TRADES_FR[client.trade] || client.trade);
       text = `Bonjour, je cherche un artisan.\n`
            + `Nom : ${client.name}\n`
            + `Code postal : ${client.postalCode}\n`
@@ -144,7 +144,18 @@ export default function WhatsAppWidget() {
                         {Object.entries(TRADES_FR).map(([key, label]) => (
                           <option key={key} value={key}>{label}</option>
                         ))}
+                        <option value="other">Autre métier…</option>
                       </select>
+                      {artisan.trade === 'other' && (
+                        <input
+                          name="otherTrade"
+                          value={artisan.otherTrade}
+                          onChange={handleArtisan}
+                          placeholder="Précisez votre métier"
+                          required
+                          style={{ marginTop: 8 }}
+                        />
+                      )}
                     </div>
                   </div>
                   <div className="form-group">
@@ -180,7 +191,18 @@ export default function WhatsAppWidget() {
                         {Object.entries(TRADES_FR).map(([key, label]) => (
                           <option key={key} value={key}>{label}</option>
                         ))}
+                        <option value="other">Autre type de travaux…</option>
                       </select>
+                      {client.trade === 'other' && (
+                        <input
+                          name="otherTrade"
+                          value={client.otherTrade}
+                          onChange={handleClient}
+                          placeholder="Précisez le type de travaux"
+                          required
+                          style={{ marginTop: 8 }}
+                        />
+                      )}
                     </div>
                   </div>
                   <div className="form-group">

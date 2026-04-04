@@ -28,7 +28,7 @@ export default function ContactPage() {
   const { t } = useTranslation();
   const [form, setForm] = useState({
     name: '', email: '', phone: '', postalCode: '',
-    trade: '', description: '', terms: false,
+    trade: '', otherTrade: '', description: '', terms: false,
   });
   const [submitted, setSubmitted] = useState(false);
   const [submitting, setSubmitting] = useState(false);
@@ -44,9 +44,10 @@ export default function ContactPage() {
     setSubmitError('');
     setSubmitting(true);
     try {
-      await submitProject(form);
+      const tradeValue = form.trade === 'other' ? form.otherTrade : form.trade;
+      await submitProject({ ...form, trade: tradeValue });
       setSubmitted(true);
-      setForm({ name: '', email: '', phone: '', postalCode: '', trade: '', description: '', terms: false });
+      setForm({ name: '', email: '', phone: '', postalCode: '', trade: '', otherTrade: '', description: '', terms: false });
     } catch (err) {
       setSubmitError(err.message);
     } finally {
@@ -153,7 +154,18 @@ export default function ContactPage() {
                       {trades.map((tr) => (
                         <option key={tr} value={tr}>{t(`trades.${tr}`)}</option>
                       ))}
+                      <option value="other">Autre type de travaux…</option>
                     </select>
+                    {form.trade === 'other' && (
+                      <input
+                        name="otherTrade"
+                        value={form.otherTrade}
+                        onChange={handleChange}
+                        placeholder="Précisez le type de travaux"
+                        required
+                        style={{ marginTop: 8 }}
+                      />
+                    )}
                   </div>
                   <div className="form-group">
                     <label>{t('contact.description')}</label>

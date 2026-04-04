@@ -174,9 +174,7 @@ export default function PacksPage() {
                   <p style={{ marginTop: 16, fontSize: '0.95rem', color: 'var(--color-gray)' }}>
                     {t('becomePro.portalNote')}{' '}
                     <a
-                      href="https://app.monartisanpro.com/login-artisan"
-                      target="_blank"
-                      rel="noopener noreferrer"
+                      href="/artisan/login"
                       style={{ color: 'var(--color-primary)', fontWeight: 600 }}
                     >
                       {t('becomePro.portalLink')} →

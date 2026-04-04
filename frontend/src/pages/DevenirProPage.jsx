@@ -78,7 +78,7 @@ export default function DevenirProPage() {
   const [form, setForm] = useState({
     company: '', firstName: '', lastName: '',
     email: '', phone: '', postalCode: '',
-    trade: '', comments: '', terms: false,
+    trade: '', otherTrade: '', comments: '', terms: false,
   });
   const [submitted, setSubmitted] = useState(false);
   const [submitting, setSubmitting] = useState(false);
@@ -102,9 +102,10 @@ export default function DevenirProPage() {
     setSubmitError('');
     setSubmitting(true);
     try {
-      await submitRegistration({ ...form, plan: selectedPlan });
+      const tradeValue = form.trade === 'other' ? form.otherTrade : form.trade;
+      await submitRegistration({ ...form, trade: tradeValue, plan: selectedPlan });
       setSubmitted(true);
-      setForm({ company: '', firstName: '', lastName: '', email: '', phone: '', postalCode: '', trade: '', comments: '', terms: false });
+      setForm({ company: '', firstName: '', lastName: '', email: '', phone: '', postalCode: '', trade: '', otherTrade: '', comments: '', terms: false });
     } catch (err) {
       setSubmitError(err.message);
     } finally {
@@ -256,9 +257,7 @@ export default function DevenirProPage() {
                     <p style={{ marginTop: 16, fontSize: '0.95rem', color: 'var(--color-gray)' }}>
                       {t('becomePro.portalNote')}{' '}
                       <a
-                        href="https://app.monartisanpro.com/login-artisan"
-                        target="_blank"
-                        rel="noopener noreferrer"
+                        href="/artisan/login"
                         style={{ color: 'var(--color-primary)', fontWeight: 600 }}
                       >
                         {t('becomePro.portalLink')} →
@@ -303,7 +302,18 @@ export default function DevenirProPage() {
                           {trades.map((tr) => (
                             <option key={tr} value={tr}>{t(`trades.${tr}`)}</option>
                           ))}
+                          <option value="other">Autre métier…</option>
                         </select>
+                        {form.trade === 'other' && (
+                          <input
+                            name="otherTrade"
+                            value={form.otherTrade}
+                            onChange={handleChange}
+                            placeholder="Précisez votre métier"
+                            required
+                            style={{ marginTop: 8 }}
+                          />
+                        )}
                       </div>
                     </div>
                     <div className="form-group">
