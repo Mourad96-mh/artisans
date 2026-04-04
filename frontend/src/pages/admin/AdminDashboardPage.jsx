@@ -4,6 +4,7 @@ import {
   fetchRegistrations, fetchStats, updateStatus, deleteRegistration, renewRegistration,
   fetchProjects, fetchProjectStats, updateProjectStatus, deleteProject,
   fetchArtisanAccounts, createArtisanAccount, updateArtisanCredentials, assignProject,
+  updateAdminCredentials,
 } from '../../services/api';
 
 const REGISTRATION_STATUSES = {
@@ -50,6 +51,12 @@ export default function AdminDashboardPage() {
   const [updatedCredentials, setUpdatedCredentials] = useState(null); // shown after update
 
   const [copied, setCopied] = useState('');
+
+  // ── Admin credentials modal ──
+  const [settingsOpen, setSettingsOpen] = useState(false);
+  const [settingsForm, setSettingsForm] = useState({ email: '', currentPassword: '', newPassword: '', confirmPassword: '' });
+  const [settingsError, setSettingsError] = useState('');
+  const [settingsSuccess, setSettingsSuccess] = useState('');
 
   // ── Projects state ──
   const [projects, setProjects] = useState([]);
@@ -170,6 +177,25 @@ export default function AdminDashboardPage() {
     fetchProjectStats().then(setProjStats).catch(() => {});
   };
 
+  const handleSettingsSave = async (e) => {
+    e.preventDefault();
+    setSettingsError('');
+    setSettingsSuccess('');
+    if (settingsForm.newPassword && settingsForm.newPassword !== settingsForm.confirmPassword) {
+      return setSettingsError('Les nouveaux mots de passe ne correspondent pas.');
+    }
+    try {
+      const payload = { currentPassword: settingsForm.currentPassword };
+      if (settingsForm.email) payload.email = settingsForm.email;
+      if (settingsForm.newPassword) payload.newPassword = settingsForm.newPassword;
+      await updateAdminCredentials(payload);
+      setSettingsSuccess('Identifiants mis à jour avec succès.');
+      setSettingsForm({ email: '', currentPassword: '', newPassword: '', confirmPassword: '' });
+    } catch (err) {
+      setSettingsError(err.message);
+    }
+  };
+
   const statCount = (stats, key, val) =>
     stats?.byStatus?.find((s) => s._id === val)?.count || 0;
 
@@ -188,7 +214,10 @@ export default function AdminDashboardPage() {
         </nav>
         <div className="admin-sidebar-footer">
           <span>{admin?.email}</span>
-          <button onClick={logout}>Déconnexion</button>
+          <div style={{ display: 'flex', gap: 8 }}>
+            <button onClick={() => { setSettingsOpen(true); setSettingsError(''); setSettingsSuccess(''); }}>⚙ Compte</button>
+            <button onClick={logout}>Déconnexion</button>
+          </div>
         </div>
       </aside>
 
@@ -196,7 +225,10 @@ export default function AdminDashboardPage() {
       <div className="admin-main">
         <div className="admin-mobile-bar">
           <div>🔨 Réseau<span>Artisans</span></div>
-          <button onClick={logout}>Déconnexion</button>
+          <div style={{ display: 'flex', gap: 8 }}>
+            <button onClick={() => { setSettingsOpen(true); setSettingsError(''); setSettingsSuccess(''); }}>⚙</button>
+            <button onClick={logout}>Déconnexion</button>
+          </div>
         </div>
         <div className="admin-mobile-tabs">
           <button className={`admin-mobile-tab ${tab === 'artisans' ? 'active' : ''}`} onClick={() => setTab('artisans')}>🔧 Artisans</button>
@@ -536,6 +568,49 @@ export default function AdminDashboardPage() {
               <div style={{ display: 'flex', gap: 12, marginTop: 8 }}>
                 <button type="submit" className="btn btn-primary">Enregistrer</button>
                 <button type="button" className="btn btn-outline" onClick={() => setEditModal(null)}>Annuler</button>
+              </div>
+            </form>
+          </div>
+        </div>
+      )}
+
+      {/* Admin settings modal */}
+      {settingsOpen && (
+        <div className="modal-overlay" onClick={() => setSettingsOpen(false)}>
+          <div className="modal-card" onClick={(e) => e.stopPropagation()}>
+            <h2>⚙ Mes identifiants</h2>
+            <p>Laissez un champ vide pour ne pas le modifier. Le mot de passe actuel est toujours requis.</p>
+            {settingsError && <div className="admin-error">{settingsError}</div>}
+            {settingsSuccess && <div className="admin-success">{settingsSuccess}</div>}
+            <form onSubmit={handleSettingsSave}>
+              <div className="form-group">
+                <label>Mot de passe actuel <span style={{ color: 'red' }}>*</span></label>
+                <input type="password" placeholder="Requis pour valider les modifications"
+                  value={settingsForm.currentPassword}
+                  onChange={(e) => setSettingsForm((p) => ({ ...p, currentPassword: e.target.value }))}
+                  required />
+              </div>
+              <div className="form-group">
+                <label>Nouvel email (optionnel)</label>
+                <input type="email" placeholder={admin?.email}
+                  value={settingsForm.email}
+                  onChange={(e) => setSettingsForm((p) => ({ ...p, email: e.target.value }))} />
+              </div>
+              <div className="form-group">
+                <label>Nouveau mot de passe (optionnel)</label>
+                <input type="password" placeholder="Laisser vide pour ne pas changer"
+                  value={settingsForm.newPassword}
+                  onChange={(e) => setSettingsForm((p) => ({ ...p, newPassword: e.target.value }))} />
+              </div>
+              <div className="form-group">
+                <label>Confirmer le nouveau mot de passe</label>
+                <input type="password" placeholder="Confirmer"
+                  value={settingsForm.confirmPassword}
+                  onChange={(e) => setSettingsForm((p) => ({ ...p, confirmPassword: e.target.value }))} />
+              </div>
+              <div style={{ display: 'flex', gap: 12, marginTop: 8 }}>
+                <button type="submit" className="btn btn-primary">Enregistrer</button>
+                <button type="button" className="btn btn-outline" onClick={() => setSettingsOpen(false)}>Annuler</button>
               </div>
             </form>
           </div>

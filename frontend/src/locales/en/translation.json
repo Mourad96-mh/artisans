@@ -8,11 +8,11 @@
     "artisanLogin": "Artisan portal"
   },
   "hero": {
-    "title": "France's #1 Network of Qualified Tradespeople",
-    "subtitle": "Homeowners: receive 3 free quotes within 48h. Tradespeople: access qualified projects near you.",
+    "title": "Join the #1 network that works for you",
+    "subtitle": "Focus on your projects, we handle your visibility. Quality leads, secure payment, maximum exposure.",
     "ctaClient": "Find a tradesperson — Free",
     "ctaArtisan": "Join the network",
-    "ctaPacks": "View our plans",
+    "ctaPacks": "Discover our plans",
     "badge_qualified": "Qualified projects",
     "badge_secure": "Secure payment",
     "badge_fast": "Fast registration",
@@ -179,6 +179,7 @@
     "budget_5": "Over €15,000",
     "description": "Describe your project",
     "send": "Get my free quotes",
+    "terms": "I accept the terms and conditions",
     "freeNote": "100% free service — No credit card required",
     "success": "Your request has been sent! We'll contact you within 48 hours.",
     "successNote": "Our advisors will review your project and connect you with qualified tradespeople in your area.",

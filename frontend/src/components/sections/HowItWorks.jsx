@@ -4,9 +4,9 @@ export default function HowItWorks() {
   const { t } = useTranslation();
 
   const steps = [
-    { num: '1', title: t('howItWorks.step1Title'), desc: t('howItWorks.step1Desc') },
-    { num: '2', title: t('howItWorks.step2Title'), desc: t('howItWorks.step2Desc') },
-    { num: '3', title: t('howItWorks.step3Title'), desc: t('howItWorks.step3Desc') },
+    { icon: '📋', title: t('howItWorks.step1Title'), desc: t('howItWorks.step1Desc') },
+    { icon: '📞', title: t('howItWorks.step2Title'), desc: t('howItWorks.step2Desc') },
+    { icon: '🏠', title: t('howItWorks.step3Title'), desc: t('howItWorks.step3Desc') },
   ];
 
   return (
@@ -18,8 +18,8 @@ export default function HowItWorks() {
         </div>
         <div className="steps-grid">
           {steps.map((step) => (
-            <div key={step.num} className="step-card">
-              <div className="step-number">{step.num}</div>
+            <div key={step.icon} className="step-card">
+              <div className="step-number">{step.icon}</div>
               <h3>{step.title}</h3>
               <p>{step.desc}</p>
             </div>

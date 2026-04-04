@@ -1,10 +1,66 @@
 <!doctype html>
-<html lang="en">
+<html lang="fr">
   <head>
     <meta charset="UTF-8" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>artisan</title>
+
+    <!-- Default SEO (overridden per page by react-helmet-async) -->
+    <title>Réseau Artisans — Le réseau N°1 des artisans qualifiés</title>
+    <meta name="description" content="Trouvez un artisan qualifié près de chez vous en France, Belgique, Canada et Suisse. Devis gratuits sous 48h. Artisans vérifiés et assurés." />
+    <meta name="keywords" content="trouver un artisan, annuaire artisans france, meilleur artisan de france, artisans de france, artisan belgique, artisan québec, artisan suisse, trouver un artisan près de chez soi, comment trouver un artisan de confiance" />
+    <meta name="robots" content="index, follow" />
+    <meta name="author" content="Réseau Artisans" />
+    <meta name="geo.region" content="FR, BE, CA, CH" />
+
+    <!-- hreflang: 4 French-speaking countries -->
+    <link rel="alternate" hreflang="fr-FR" href="https://reseauartisans.fr/" />
+    <link rel="alternate" hreflang="fr-BE" href="https://reseauartisans.fr/" />
+    <link rel="alternate" hreflang="fr-CA" href="https://reseauartisans.fr/" />
+    <link rel="alternate" hreflang="fr-CH" href="https://reseauartisans.fr/" />
+    <link rel="alternate" hreflang="x-default" href="https://reseauartisans.fr/" />
+
+    <!-- Open Graph -->
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="Réseau Artisans" />
+    <meta property="og:title" content="Réseau Artisans — Le réseau N°1 des artisans qualifiés" />
+    <meta property="og:description" content="Trouvez un artisan qualifié près de chez vous. Devis gratuits sous 48h. Artisans vérifiés et assurés en France, Belgique, Canada et Suisse." />
+    <meta property="og:locale" content="fr_FR" />
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Réseau Artisans — Le réseau N°1 des artisans qualifiés" />
+    <meta name="twitter:description" content="Trouvez un artisan qualifié près de chez vous. Devis gratuits sous 48h." />
+
+    <!-- JSON-LD: Organization -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Organization",
+      "name": "Réseau Artisans",
+      "description": "Le réseau N°1 des artisans qualifiés en France, Belgique, Canada et Suisse",
+      "url": "https://reseauartisans.fr",
+      "logo": "https://reseauartisans.fr/favicon.svg",
+      "address": {
+        "@type": "PostalAddress",
+        "streetAddress": "29 rue Tronchet",
+        "postalCode": "75008",
+        "addressLocality": "Paris",
+        "addressCountry": "FR"
+      },
+      "telephone": "+33162260900",
+      "email": "contact@reseauxartisans.fr",
+      "areaServed": [
+        { "@type": "Country", "name": "France" },
+        { "@type": "Country", "name": "Belgique" },
+        { "@type": "Country", "name": "Canada" },
+        { "@type": "Country", "name": "Suisse" }
+      ],
+      "serviceType": "Mise en relation artisans et particuliers",
+      "knowsLanguage": "fr",
+      "sameAs": []
+    }
+    </script>
   </head>
   <body>
     <div id="root"></div>

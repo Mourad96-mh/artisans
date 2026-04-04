@@ -1,12 +1,32 @@
-import { useState } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import { NavLink, Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
+
+const countries = [
+  { code: 'FR', flag: '🇫🇷', name: 'France' },
+  { code: 'BE', flag: '🇧🇪', name: 'Belgique' },
+  { code: 'CA', flag: '🇨🇦', name: 'Canada' },
+  { code: 'CH', flag: '🇨🇭', name: 'Suisse' },
+];
 
 export default function Header() {
   const { t, i18n } = useTranslation();
   const [menuOpen, setMenuOpen] = useState(false);
+  const [selectedCountry, setSelectedCountry] = useState(countries[0]);
+  const [countryOpen, setCountryOpen] = useState(false);
+  const countryRef = useRef(null);
 
   const switchLang = (lng) => i18n.changeLanguage(lng);
+
+  useEffect(() => {
+    const handleClickOutside = (e) => {
+      if (countryRef.current && !countryRef.current.contains(e.target)) {
+        setCountryOpen(false);
+      }
+    };
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => document.removeEventListener('mousedown', handleClickOutside);
+  }, []);
 
   const navLinks = [
     { to: '/', label: t('nav.home'), end: true },
@@ -38,6 +58,29 @@ export default function Header() {
           </nav>
 
           <div className="header-actions">
+            {/* Country selector */}
+            <div className="country-selector" ref={countryRef}>
+              <button className="country-btn" onClick={() => setCountryOpen(!countryOpen)}>
+                <span>{selectedCountry.flag}</span>
+                <span>{selectedCountry.name}</span>
+                <span className="country-chevron">▾</span>
+              </button>
+              {countryOpen && (
+                <div className="country-dropdown">
+                  {countries.map((c) => (
+                    <button
+                      key={c.code}
+                      className={`country-option ${selectedCountry.code === c.code ? 'active' : ''}`}
+                      onClick={() => { setSelectedCountry(c); setCountryOpen(false); }}
+                    >
+                      <span>{c.flag}</span>
+                      <span>{c.name}</span>
+                    </button>
+                  ))}
+                </div>
+              )}
+            </div>
+
             <div className="lang-switcher">
               <button
                 className={`lang-btn ${i18n.language === 'fr' ? 'active' : ''}`}
@@ -60,7 +103,7 @@ export default function Header() {
             </Link>
           </div>
 
-          <button className="hamburger" onClick={() => setMenuOpen(!menuOpen)} aria-label="Menu">
+          <button className={`hamburger ${menuOpen ? 'open' : ''}`} onClick={() => setMenuOpen(!menuOpen)} aria-label="Menu">
             <span />
             <span />
             <span />
@@ -89,6 +132,18 @@ export default function Header() {
         <div style={{ display: 'flex', gap: 8, padding: '12px 20px' }}>
           <button className={`lang-btn ${i18n.language === 'fr' ? 'active' : ''}`} onClick={() => switchLang('fr')}>FR</button>
           <button className={`lang-btn ${i18n.language === 'en' ? 'active' : ''}`} onClick={() => switchLang('en')}>EN</button>
+        </div>
+        <div style={{ padding: '4px 20px 16px', display: 'flex', flexDirection: 'column', gap: 4 }}>
+          {countries.map((c) => (
+            <button
+              key={c.code}
+              className={`country-option ${selectedCountry.code === c.code ? 'active' : ''}`}
+              onClick={() => { setSelectedCountry(c); setMenuOpen(false); }}
+            >
+              <span>{c.flag}</span>
+              <span>{c.name}</span>
+            </button>
+          ))}
         </div>
       </nav>
     </header>

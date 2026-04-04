@@ -42,6 +42,16 @@ export async function verifyToken() {
   return res.json();
 }
 
+export async function updateAdminCredentials(data) {
+  const res = await fetch(`${BASE}/api/auth/credentials`, {
+    method: 'PATCH',
+    headers: authHeaders(),
+    body: JSON.stringify(data),
+  });
+  if (!res.ok) throw new Error((await res.json()).message || 'Erreur serveur');
+  return res.json();
+}
+
 // ── Public: homeowner projects ───────────────────────────
 export async function submitProject(data) {
   const res = await fetch(`${BASE}/api/projects`, {

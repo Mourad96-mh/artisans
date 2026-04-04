@@ -8,11 +8,11 @@
     "artisanLogin": "Espace artisan"
   },
   "hero": {
-    "title": "Le réseau N°1 des artisans qualifiés en France",
-    "subtitle": "Particuliers : recevez 3 devis gratuits sous 48h. Artisans : accédez à des chantiers qualifiés près de chez vous.",
+    "title": "Rejoignez le réseau N°1 qui travaille pour vous",
+    "subtitle": "Concentrez-vous sur vos chantiers, nous nous occupons de votre visibilité. Super projets, paiement sécurisé, visibilité maximale.",
     "ctaClient": "Trouver un artisan — Gratuit",
     "ctaArtisan": "Rejoindre le réseau",
-    "ctaPacks": "Voir les offres",
+    "ctaPacks": "Découvrir nos forfaits",
     "badge_qualified": "Projets qualifiés",
     "badge_secure": "Paiement sécurisé",
     "badge_fast": "Inscription rapide",
@@ -178,6 +178,7 @@
     "budget_5": "Plus de 15 000€",
     "description": "Décrivez votre projet",
     "send": "Recevoir mes devis gratuits",
+    "terms": "J'accepte les conditions générales d'utilisation",
     "freeNote": "Service 100% gratuit — Aucune carte bancaire requise",
     "success": "Votre demande a été envoyée ! Nous vous contactons sous 48h.",
     "successNote": "Nos conseillers vont analyser votre projet et vous mettre en relation avec les artisans qualifiés de votre zone.",

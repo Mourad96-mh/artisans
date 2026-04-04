@@ -8,13 +8,6 @@ const countries = [
   { flag: '🇨🇭', name: 'Suisse' },
 ];
 
-const trustBadges = [
-  { icon: '✅', key: 'qualified' },
-  { icon: '🔒', key: 'secure' },
-  { icon: '⚡', key: 'fast' },
-  { icon: '🛡️', key: 'verified' },
-];
-
 const heroPhotos = [
   'https://images.unsplash.com/photo-1504307651254-35680f356dfd?w=400&h=300&fit=crop',
   'https://images.unsplash.com/photo-1621905251918-48416bd8575a?w=400&h=300&fit=crop',
@@ -45,23 +38,13 @@ export default function Hero() {
             <h1>{t('hero.title')}</h1>
             <p>{t('hero.subtitle')}</p>
 
-            {/* Trust badges */}
-            <div className="hero-badges">
-              {trustBadges.map((b) => (
-                <div key={b.key} className="hero-badge">
-                  <span>{b.icon}</span>
-                  <span>{t(`hero.badge_${b.key}`)}</span>
-                </div>
-              ))}
-            </div>
-
             {/* CTAs */}
             <div className="hero-buttons">
               <Link to="/contact" className="btn btn-primary btn-lg">
                 {t('hero.ctaClient')}
               </Link>
               <Link to="/devenir-pro" className="btn btn-outline btn-lg hero-btn-outline">
-                🔨 {t('hero.ctaArtisan')}
+                {t('hero.ctaArtisan')}
               </Link>
             </div>
 
@@ -77,7 +60,6 @@ export default function Hero() {
                 ))}
               </div>
               <div className="hero-proof__text">
-                <span className="hero-proof__stars">★★★★★</span>
                 <span>{t('hero.proofText')}</span>
               </div>
             </div>

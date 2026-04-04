@@ -20,8 +20,8 @@ const WhatsAppIcon = ({ size = 24 }) => (
   </svg>
 );
 
-const ARTISAN_INITIAL = { company: '', firstName: '', lastName: '', email: '', phone: '', postalCode: '', trade: '', comments: '' };
-const CLIENT_INITIAL  = { name: '', postalCode: '', email: '', phone: '', trade: '', description: '' };
+const ARTISAN_INITIAL = { company: '', firstName: '', lastName: '', email: '', phone: '', postalCode: '', trade: '', comments: '', terms: false };
+const CLIENT_INITIAL  = { name: '', postalCode: '', email: '', phone: '', trade: '', description: '', terms: false };
 
 export default function WhatsAppWidget() {
   const [open, setOpen]         = useState(false);
@@ -30,13 +30,13 @@ export default function WhatsAppWidget() {
   const [client, setClient]     = useState(CLIENT_INITIAL);
 
   const handleArtisan = (e) => {
-    const { name, value } = e.target;
-    setArtisan((prev) => ({ ...prev, [name]: value }));
+    const { name, value, type, checked } = e.target;
+    setArtisan((prev) => ({ ...prev, [name]: type === 'checkbox' ? checked : value }));
   };
 
   const handleClient = (e) => {
-    const { name, value } = e.target;
-    setClient((prev) => ({ ...prev, [name]: value }));
+    const { name, value, type, checked } = e.target;
+    setClient((prev) => ({ ...prev, [name]: type === 'checkbox' ? checked : value }));
   };
 
   const handleTypeSwitch = (type) => {
@@ -81,8 +81,8 @@ export default function WhatsAppWidget() {
       {open && (
         <div className="wa-overlay" onClick={(e) => e.target === e.currentTarget && setOpen(false)}>
           <div className="wa-modal">
-            <div className="wa-modal-body">
             <button className="wa-modal-close" onClick={() => setOpen(false)}>✕</button>
+            <div className="wa-modal-body">
             <div className="wa-modal-header">
               <WhatsAppIcon size={22} />
               <span>Contactez-nous sur WhatsApp</span>
@@ -189,6 +189,17 @@ export default function WhatsAppWidget() {
                   </div>
                 </>
               )}
+
+              <label className="form-checkbox">
+                <input
+                  type="checkbox"
+                  name="terms"
+                  checked={userType === 'artisan' ? artisan.terms : client.terms}
+                  onChange={userType === 'artisan' ? handleArtisan : handleClient}
+                  required
+                />
+                J'accepte les conditions générales d'utilisation
+              </label>
 
               <button type="submit" className="btn wa-submit-btn">
                 <WhatsAppIcon size={18} />

@@ -29,4 +29,22 @@ router.get('/me', authMiddleware, (req, res) => {
   res.json({ email: req.admin.email });
 });
 
+// PATCH /api/auth/credentials — update admin email/password
+router.patch('/credentials', authMiddleware, async (req, res) => {
+  const { email, currentPassword, newPassword } = req.body;
+
+  const admin = await Admin.findById(req.admin.id);
+  if (!admin) return res.status(404).json({ message: 'Admin introuvable' });
+
+  const match = await admin.comparePassword(currentPassword);
+  if (!match) return res.status(401).json({ message: 'Mot de passe actuel incorrect' });
+
+  if (email) admin.email = email;
+  if (newPassword) admin.password = newPassword;
+
+  await admin.save();
+
+  res.json({ message: 'Identifiants mis à jour' });
+});
+
 module.exports = router;

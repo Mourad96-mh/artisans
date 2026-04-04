@@ -2,6 +2,35 @@ import { useState, useRef } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Link } from 'react-router-dom';
 import { submitRegistration } from '../services/api';
+import Seo from '../components/Seo';
+
+const proJsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'Service',
+  name: 'Inscription artisan — Réseau Artisans',
+  description: 'Rejoignez le réseau N°1 des artisans qualifiés. Recevez des projets qualifiés dans votre zone, développez votre activité en France, Belgique, Canada et Suisse.',
+  provider: {
+    '@type': 'Organization',
+    name: 'Réseau Artisans',
+  },
+  areaServed: ['France', 'Belgique', 'Canada', 'Suisse'],
+  offers: [
+    {
+      '@type': 'Offer',
+      name: 'Pack Découverte',
+      price: '120',
+      priceCurrency: 'EUR',
+      description: '1 projet offert inclus, puis 40€ par projet',
+    },
+    {
+      '@type': 'Offer',
+      name: 'Pack Premium',
+      price: '190',
+      priceCurrency: 'EUR',
+      description: '2 projets offerts inclus, projets exclusifs sans concurrence',
+    },
+  ],
+};
 
 const trades = ['plumbing', 'electrical', 'painting', 'masonry', 'hvac', 'carpentry', 'roofing', 'tiling'];
 
@@ -87,6 +116,13 @@ export default function DevenirProPage() {
 
   return (
     <>
+      <Seo
+        title="Devenir Artisan Pro — Rejoignez le réseau N°1"
+        description="Rejoignez le réseau N°1 des artisans qualifiés en France, Belgique, Canada et Suisse. Recevez des projets qualifiés dans votre zone. Inscription en quelques minutes, accès à vie."
+        keywords="artisans de france, artisan de france label, meilleur artisan de france, artisan solidaire de france, artisan pro belgique, artisan pro québec, artisan pro suisse, rejoindre réseau artisans"
+        jsonLd={proJsonLd}
+        path="/devenir-pro"
+      />
       <div className="page-hero">
         <div className="container">
           <h1>{t('packs.title')}</h1>
@@ -154,9 +190,11 @@ export default function DevenirProPage() {
               <li>✅ {t('packs.clientFeature2')}</li>
               <li>✅ {t('packs.clientFeature3')}</li>
             </ul>
-            <Link to="/contact" className="btn btn-primary">
-              {t('packs.clientCta')}
-            </Link>
+            <div style={{ marginTop: 8 }}>
+              <Link to="/contact" className="btn btn-primary">
+                {t('packs.clientCta')}
+              </Link>
+            </div>
           </div>
         </div>
       </section>
@@ -277,7 +315,7 @@ export default function DevenirProPage() {
                       {t('becomePro.terms')}
                     </label>
                     {submitError && <div className="admin-error">{submitError}</div>}
-                    <button type="submit" className="btn btn-primary" style={{ width: '100%', justifyContent: 'center' }} disabled={submitting}>
+                    <button type="submit" className="btn btn-primary" style={{ width: '100%', justifyContent: 'center', marginTop: 16 }} disabled={submitting}>
                       {submitting ? 'Envoi en cours…' : `🚀 ${t('becomePro.submit')}`}
                     </button>
                   </form>

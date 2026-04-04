@@ -1,6 +1,26 @@
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { submitProject } from '../services/api';
+import Seo from '../components/Seo';
+
+const contactJsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'Service',
+  name: 'Mise en relation avec des artisans qualifiés',
+  description: 'Décrivez votre projet et recevez jusqu\'à 3 devis gratuits sous 48h de la part d\'artisans vérifiés et assurés.',
+  provider: {
+    '@type': 'Organization',
+    name: 'Réseau Artisans',
+  },
+  areaServed: ['France', 'Belgique', 'Canada', 'Suisse'],
+  serviceType: ['Plomberie', 'Électricité', 'Peinture', 'Maçonnerie', 'Menuiserie', 'Toiture', 'Carrelage', 'Climatisation'],
+  offers: {
+    '@type': 'Offer',
+    price: '0',
+    priceCurrency: 'EUR',
+    description: 'Service 100% gratuit pour les particuliers',
+  },
+};
 
 const trades = ['plumbing', 'electrical', 'painting', 'masonry', 'hvac', 'carpentry', 'roofing', 'tiling'];
 
@@ -8,14 +28,15 @@ export default function ContactPage() {
   const { t } = useTranslation();
   const [form, setForm] = useState({
     name: '', email: '', phone: '', postalCode: '',
-    trade: '', description: '',
+    trade: '', description: '', terms: false,
   });
   const [submitted, setSubmitted] = useState(false);
   const [submitting, setSubmitting] = useState(false);
   const [submitError, setSubmitError] = useState('');
 
   const handleChange = (e) => {
-    setForm((prev) => ({ ...prev, [e.target.name]: e.target.value }));
+    const { name, value, type, checked } = e.target;
+    setForm((prev) => ({ ...prev, [name]: type === 'checkbox' ? checked : value }));
   };
 
   const handleSubmit = async (e) => {
@@ -25,7 +46,7 @@ export default function ContactPage() {
     try {
       await submitProject(form);
       setSubmitted(true);
-      setForm({ name: '', email: '', phone: '', postalCode: '', trade: '', description: '' });
+      setForm({ name: '', email: '', phone: '', postalCode: '', trade: '', description: '', terms: false });
     } catch (err) {
       setSubmitError(err.message);
     } finally {
@@ -35,6 +56,13 @@ export default function ContactPage() {
 
   return (
     <>
+      <Seo
+        title="Trouver un artisan qualifié — Devis gratuits sous 48h"
+        description="Vous cherchez un artisan près de chez vous en France, Belgique, Canada ou Suisse ? Décrivez votre projet et recevez jusqu'à 3 devis gratuits sous 48h. Artisans vérifiés et assurés."
+        keywords="trouver un artisan près de chez soi, trouver un artisan pour petit travaux, comment trouver un artisan de confiance, artisan belgique, artisan québec canada, artisan suisse, devis artisan gratuit"
+        jsonLd={contactJsonLd}
+        path="/contact"
+      />
       <div className="page-hero">
         <div className="container">
           <h1>{t('contact.title')}</h1>
@@ -131,6 +159,11 @@ export default function ContactPage() {
                     <label>{t('contact.description')}</label>
                     <textarea name="description" value={form.description} onChange={handleChange} style={{ minHeight: 120 }} required />
                   </div>
+
+                  <label className="form-checkbox">
+                    <input type="checkbox" name="terms" checked={form.terms} onChange={handleChange} required />
+                    {t('contact.terms')}
+                  </label>
 
                   {submitError && <div className="admin-error">{submitError}</div>}
 
