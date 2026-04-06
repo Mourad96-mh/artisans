@@ -6,7 +6,12 @@ const Admin = require('./models/Admin');
 
 const app = express();
 
-const allowedOrigins = ['http://localhost:5173', process.env.CLIENT_URL].filter(Boolean);
+const allowedOrigins = [
+  'http://localhost:5173',
+  'https://reseauxartizano.com',
+  'https://www.reseauxartizano.com',
+  process.env.CLIENT_URL,
+].filter(Boolean);
 app.use(cors({ origin: allowedOrigins }));
 app.use(express.json());
 
