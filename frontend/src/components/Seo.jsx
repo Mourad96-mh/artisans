@@ -1,7 +1,6 @@
 import { Helmet } from 'react-helmet-async';
 
-// Replace with real domain once confirmed
-const DOMAIN = 'https://reseauartisans.fr';
+const DOMAIN = 'https://reseauxartizano.com';
 
 export default function Seo({ title, description, keywords, jsonLd, path = '' }) {
   const fullTitle = `${title} | Réseau Artisans`;

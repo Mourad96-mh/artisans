@@ -26,7 +26,7 @@ export default function AdminLoginPage() {
   return (
     <div className="admin-login-page">
       <div className="admin-login-card">
-        <div className="admin-login-logo">🔨 Réseau<span>Artisans</span></div>
+        <div className="admin-login-logo"><img src="/logo.png" alt="Réseau Artisans" style={{ height: '64px', width: 'auto' }} /></div>
         <h1>Espace Admin</h1>
         <p>Connectez-vous pour accéder au tableau de bord</p>
 
@@ -39,7 +39,7 @@ export default function AdminLoginPage() {
               type="email"
               value={form.email}
               onChange={(e) => setForm((p) => ({ ...p, email: e.target.value }))}
-              placeholder="admin@reseauxartisans.fr"
+              placeholder="admin@reseauxartizano.com"
               required
               autoFocus
             />

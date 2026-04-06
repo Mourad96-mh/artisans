@@ -29,7 +29,7 @@ export default function ArtisanLoginPage() {
   return (
     <div className="admin-login-page">
       <div className="admin-login-card">
-        <div className="admin-login-logo">🔨 Réseau<span>Artisans</span></div>
+        <div className="admin-login-logo"><img src="/logo.png" alt="Réseau Artisans" style={{ height: '64px', width: 'auto' }} /></div>
         <h1>Espace Artisan</h1>
         <p>Accédez à vos projets et à votre abonnement</p>
 
@@ -37,7 +37,7 @@ export default function ArtisanLoginPage() {
           <div className="expired-notice">
             <strong>⚠ Abonnement expiré</strong>
             <p>Votre accès a été suspendu. Contactez-nous pour renouveler votre abonnement.</p>
-            <a href="mailto:contact@reseauxartisans.fr">contact@reseauxartisans.fr</a>
+            <a href="mailto:contact@reseauxartizano.com">contact@reseauxartizano.com</a>
           </div>
         )}
         {error && <div className="admin-error">{error}</div>}

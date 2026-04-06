@@ -26,7 +26,7 @@ npm run dev
 
 **Admin access:** http://localhost:5173/admin/login
 
-- Email: `admin@reseauxartisans.fr`
+- Email: `admin@reseauxartizano.com`
 - Password: `admin123`
 
 ---

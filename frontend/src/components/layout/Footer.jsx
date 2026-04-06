@@ -11,8 +11,7 @@ export default function Footer() {
         <div className="footer-grid">
           <div className="footer-brand">
             <div className="logo">
-              <div className="logo-icon">🔨</div>
-              Réseau<span>Artisans</span>
+              <img src="/logo.png" alt="Réseau Artisans" style={{ height: '58px', width: 'auto' }} />
             </div>
             <p>{t('footer.tagline')}</p>
             <div className="footer-social">
@@ -48,7 +47,7 @@ export default function Footer() {
             <h4>Contact</h4>
             <ul>
               <li><a href="tel:0162260900">{t('contact.phoneNumber')}</a></li>
-              <li><a href="mailto:contact@reseauxartisans.fr">{t('contact.emailAddress')}</a></li>
+              <li><a href="mailto:contact@reseauxartizano.com">{t('contact.emailAddress')}</a></li>
               <li><a href="#">{t('contact.address')}</a></li>
             </ul>
           </div>
