@@ -8,14 +8,13 @@ const trades = ['plumbing', 'electrical', 'painting', 'masonry', 'hvac', 'carpen
 const plans = [
   {
     key: 'horizon',
-    price: '99,99',
+    price: '99',
     popular: false,
     badge: null,
     features: [
       { icon: '✅', key: 'lifetimeMembership' },
       { icon: '✅', key: 'clientSpaceAccess' },
       { icon: '✅', key: 'zoneProjects' },
-      { icon: '✅', key: 'horizon_then' },
       { icon: '✅', key: 'visibleProfile' },
       { icon: '✅', key: 'whatsappSupport' },
       { icon: '⚡', key: 'maxTwoArtisans' },
@@ -23,7 +22,7 @@ const plans = [
   },
   {
     key: 'silver',
-    price: '159,99',
+    price: '179',
     popular: true,
     badge: 'POPULAIRE',
     features: [
@@ -31,7 +30,6 @@ const plans = [
       { icon: '✅', key: 'clientSpaceAccess' },
       { icon: '✅', key: 'zoneProjects' },
       { icon: '✅', key: 'silver_project' },
-      { icon: '✅', key: 'silver_then' },
       { icon: '✅', key: 'improvedVisibility' },
       { icon: '✅', key: 'featuredProfile' },
       { icon: '✅', key: 'priorityWhatsappSupport' },
@@ -39,7 +37,7 @@ const plans = [
   },
   {
     key: 'premium',
-    price: '219,99',
+    price: '229',
     popular: false,
     badge: 'RECOMMANDÉ',
     features: [
@@ -47,7 +45,6 @@ const plans = [
       { icon: '✅', key: 'clientSpaceAccess' },
       { icon: '✅', key: 'zoneProjects' },
       { icon: '✅', key: 'premium_project' },
-      { icon: '✅', key: 'premium_then' },
       { icon: '✅', key: 'exclusiveProjects' },
       { icon: '✅', key: 'maxPriorityVisibility' },
       { icon: '✅', key: 'featuredProfile' },
@@ -103,8 +100,8 @@ const perProjectPlans = [
 
 const leadPacks = [
   {
-    key: '5_leads',
-    name: 'Pack 5 Leads',
+    key: '5_leads_horizon',
+    name: 'Pack 5 Leads Horizon',
     label: 'Idéal pour démarrer (~24€/lead)',
     price: '119',
     popular: false,
@@ -116,17 +113,33 @@ const leadPacks = [
     ],
   },
   {
-    key: '10_leads',
-    name: 'Pack 10 Leads',
+    key: '10_leads_horizon',
+    name: 'Pack 10 Leads Horizon',
     label: 'Volume avantageux (~20€/lead)',
     price: '199',
-    popular: true,
+    popular: false,
     features: [
       '10 leads qualifiés livrés sous 24h',
       'Leads dans votre zone d\'intervention',
       'Accès via votre espace client',
       'Coordonnées complètes du prospect',
       'Volume idéal pour booster votre activité',
+    ],
+  },
+  {
+    key: '5_leads_premium',
+    name: 'Pack 5 Leads Premium',
+    label: 'Performance maximale (~40€/lead)',
+    price: '199',
+    popular: true,
+    features: [
+      '5 leads premium livrés sous 24h',
+      'Leads dans votre zone d\'intervention',
+      'Accès via votre espace client',
+      'Coordonnées complètes du prospect',
+      'Leads à forte intention d\'achat',
+      'Taux de conversion supérieur',
+      'Leads exclusifs qualifiés + ciblés',
     ],
   },
   {
@@ -298,7 +311,7 @@ export default function PacksPage() {
             <h2>{t('packs.leadsTitle')}</h2>
             <p>{t('packs.leadsSubtitle')}</p>
           </div>
-          <div className="pricing-grid pricing-grid--4 pricing-grid--centered">
+          <div className="pricing-grid pricing-grid--4">
             {leadPacks.map((pack) => (
               <div key={pack.key} className={`pricing-card ${pack.popular ? 'popular' : ''}`}>
                 {pack.popular && <div className="popular-badge">{t('packs.recommended')}</div>}
