@@ -40,8 +40,7 @@ export default function Header() {
       <div className="container">
         <div className="header-inner">
           <Link to="/" className="logo">
-            <div className="logo-icon">🔨</div>
-            Réseau<span>Artisans</span>
+            <img src="/logo.png" alt="Réseau Artisans" style={{ height: '58px', width: 'auto' }} />
           </Link>
 
           <nav className="nav">
