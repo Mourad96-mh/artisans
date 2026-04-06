@@ -1544,6 +1544,27 @@ input, textarea, select { font-family: inherit; }
   margin: 0 auto;
 }
 
+.pricing-grid--4 {
+  grid-template-columns: repeat(4, 1fr);
+  justify-content: center;
+}
+
+.pricing-grid--4.pricing-grid--centered {
+  grid-template-columns: repeat(3, minmax(0, 320px));
+  justify-content: center;
+}
+
+.section--alt {
+  background: var(--color-light);
+}
+
+.leads-note {
+  text-align: center;
+  margin-top: 28px;
+  color: var(--color-gray);
+  font-size: 0.9rem;
+}
+
 .pricing-card {
   background: var(--color-white);
   border: 2px solid var(--color-border);
@@ -1611,6 +1632,10 @@ input, textarea, select { font-family: inherit; }
   font-size: 0.8rem;
   font-weight: 700;
   white-space: nowrap;
+}
+
+.popular-badge--pro {
+  background: #6366f1;
 }
 
 .pricing-card h3 {
@@ -1980,6 +2005,7 @@ input, textarea, select { font-family: inherit; }
 /* ===== RESPONSIVE ===== */
 @media (max-width: 1024px) {
   .footer-grid { grid-template-columns: 1fr 1fr; }
+  .pricing-grid--4 { grid-template-columns: repeat(2, 1fr); }
 }
 
 @media (max-width: 768px) {
@@ -2017,7 +2043,8 @@ input, textarea, select { font-family: inherit; }
   .form-row { grid-template-columns: 1fr; }
 
   .pricing-grid,
-  .pricing-grid--2col { grid-template-columns: 1fr; }
+  .pricing-grid--2col,
+  .pricing-grid--4 { grid-template-columns: 1fr; }
   .clients-free-card { padding: 36px 24px; }
   .leads-grid { grid-template-columns: 1fr; }
 

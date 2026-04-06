@@ -7,31 +7,142 @@ const trades = ['plumbing', 'electrical', 'painting', 'masonry', 'hvac', 'carpen
 
 const plans = [
   {
-    key: 'decouverte',
-    price: '120',
+    key: 'horizon',
+    price: '99,99',
     popular: false,
+    badge: null,
     features: [
       { icon: '✅', key: 'lifetimeMembership' },
-      { icon: '✅', key: 'decouverte_project' },
-      { icon: '✅', key: 'decouverte_then' },
+      { icon: '✅', key: 'clientSpaceAccess' },
       { icon: '✅', key: 'zoneProjects' },
+      { icon: '✅', key: 'horizon_then' },
       { icon: '✅', key: 'visibleProfile' },
-      { icon: '✅', key: 'support' },
-      { icon: '⚡', key: 'withCompetition' },
+      { icon: '✅', key: 'whatsappSupport' },
+      { icon: '⚡', key: 'maxTwoArtisans' },
+    ],
+  },
+  {
+    key: 'silver',
+    price: '159,99',
+    popular: true,
+    badge: 'POPULAIRE',
+    features: [
+      { icon: '✅', key: 'lifetimeMembership' },
+      { icon: '✅', key: 'clientSpaceAccess' },
+      { icon: '✅', key: 'zoneProjects' },
+      { icon: '✅', key: 'silver_project' },
+      { icon: '✅', key: 'silver_then' },
+      { icon: '✅', key: 'improvedVisibility' },
+      { icon: '✅', key: 'featuredProfile' },
+      { icon: '✅', key: 'priorityWhatsappSupport' },
     ],
   },
   {
     key: 'premium',
-    price: '190',
-    popular: true,
+    price: '219,99',
+    popular: false,
+    badge: 'RECOMMANDÉ',
     features: [
       { icon: '✅', key: 'lifetimeMembership' },
+      { icon: '✅', key: 'clientSpaceAccess' },
+      { icon: '✅', key: 'zoneProjects' },
       { icon: '✅', key: 'premium_project' },
       { icon: '✅', key: 'premium_then' },
       { icon: '✅', key: 'exclusiveProjects' },
-      { icon: '✅', key: 'fullyYours' },
+      { icon: '✅', key: 'maxPriorityVisibility' },
       { icon: '✅', key: 'featuredProfile' },
-      { icon: '✅', key: 'prioritySupport' },
+      { icon: '✅', key: 'priorityWhatsappSupport' },
+      { icon: '✅', key: 'conversionAssistance' },
+    ],
+  },
+];
+
+const perProjectPlans = [
+  {
+    key: 'horizon',
+    price: '29',
+    label: 'Pour débuter',
+    popular: false,
+    badge: null,
+    features: [
+      'Accès à des projets qualifiés dans votre zone',
+      'Profil artisan visible',
+      'Support client prioritaire',
+      'Concurrence limitée (max 2 artisans)',
+    ],
+  },
+  {
+    key: 'premium',
+    price: '39',
+    label: 'Projet exclusif sans concurrence',
+    popular: true,
+    badge: null,
+    features: [
+      'Accès à des projets qualifiés dans votre zone',
+      'Profil artisan mis en avant',
+      'Support WhatsApp prioritaire',
+      'Projet exclusif — 0 concurrent',
+      'Leads qualifiés + filtrés',
+      'Assistance à la conversion',
+    ],
+  },
+  {
+    key: 'pro',
+    price: '19',
+    label: 'Meilleur rapport qualité/prix',
+    popular: false,
+    badge: '🔥 OFFRE',
+    features: [
+      'Accès à des projets qualifiés dans votre zone',
+      'Profil artisan visible',
+      'Support client prioritaire',
+      'Tarif le plus compétitif du marché',
+    ],
+  },
+];
+
+const leadPacks = [
+  {
+    key: '5_leads',
+    name: 'Pack 5 Leads',
+    label: 'Idéal pour démarrer (~24€/lead)',
+    price: '119',
+    popular: false,
+    features: [
+      '5 leads qualifiés livrés sous 24h',
+      'Leads dans votre zone d\'intervention',
+      'Accès via votre espace client',
+      'Coordonnées complètes du prospect',
+    ],
+  },
+  {
+    key: '10_leads',
+    name: 'Pack 10 Leads',
+    label: 'Volume avantageux (~20€/lead)',
+    price: '199',
+    popular: true,
+    features: [
+      '10 leads qualifiés livrés sous 24h',
+      'Leads dans votre zone d\'intervention',
+      'Accès via votre espace client',
+      'Coordonnées complètes du prospect',
+      'Volume idéal pour booster votre activité',
+    ],
+  },
+  {
+    key: '10_leads_premium',
+    name: 'Pack 10 Leads Premium',
+    label: 'Performance maximale (~35€/lead)',
+    price: '349',
+    popular: false,
+    features: [
+      '10 leads premium livrés sous 24h',
+      'Leads dans votre zone d\'intervention',
+      'Accès via votre espace client',
+      'Coordonnées complètes du prospect',
+      'Leads à forte intention d\'achat',
+      'Taux de conversion supérieur',
+      'Leads exclusifs qualifiés + ciblés',
     ],
   },
 ];
@@ -95,7 +206,7 @@ export default function PacksPage() {
             <p>{t('packs.artisanSubtitle')}</p>
           </div>
 
-          <div className="pricing-grid pricing-grid--2col">
+          <div className="pricing-grid">
             {plans.map((plan) => (
               <div
                 key={plan.key}
@@ -104,11 +215,14 @@ export default function PacksPage() {
                 {plan.popular && (
                   <div className="popular-badge">{t('packs.recommended')}</div>
                 )}
+                {plan.badge && (
+                  <div className="popular-badge popular-badge--pro">{plan.badge}</div>
+                )}
                 {selectedPlan === plan.key && (
                   <div className="pricing-card__selected-badge">✓ Sélectionné</div>
                 )}
                 <h3>{t(`packs.${plan.key}`)}</h3>
-                <p className="description">{t('packs.annualRenewal')}</p>
+                <p className="description">{t('packs.oneTimePayment')}</p>
                 <div className="price">
                   <span className="amount">{plan.price}</span>
                   <span className="currency">€</span>
@@ -131,6 +245,79 @@ export default function PacksPage() {
               </div>
             ))}
           </div>
+        </div>
+      </section>
+
+      {/* Per-project pricing */}
+      <section className="section">
+        <div className="container">
+          <div className="section-header">
+            <h2>{t('packs.perProjectTitle')}</h2>
+            <p>{t('packs.perProjectSubtitle')}</p>
+          </div>
+          <div className="pricing-grid">
+            {perProjectPlans.map((plan) => (
+              <div key={plan.key} className={`pricing-card ${plan.popular ? 'popular' : ''}`}>
+                {plan.popular && <div className="popular-badge">{t('packs.recommended')}</div>}
+                {plan.badge && <div className="popular-badge popular-badge--pro">{plan.badge}</div>}
+                <h3>{t(`packs.perProject_${plan.key}`)}</h3>
+                <p className="description">{plan.label}</p>
+                <div className="price">
+                  {plan.price ? (
+                    <>
+                      <span className="amount">{plan.price}</span>
+                      <span className="currency">€</span>
+                      <span className="price-period">{t('packs.perProjectUnit')}</span>
+                    </>
+                  ) : (
+                    <span className="amount" style={{ fontSize: '1.1rem' }}>{t('packs.contactAdviser')}</span>
+                  )}
+                </div>
+                <ul className="features-list">
+                  {plan.features.map((f) => <li key={f}>✅ {f}</li>)}
+                </ul>
+                {plan.price ? (
+                  <button onClick={() => handleSelectPlan(plan.key)} className={`btn ${plan.popular ? 'btn-primary' : 'btn-outline'}`} style={{ width: '100%', justifyContent: 'center' }}>
+                    {t('packs.choosePlan')}
+                  </button>
+                ) : (
+                  <Link to="/contact" className="btn btn-outline" style={{ width: '100%', justifyContent: 'center' }}>
+                    {t('packs.contactCta')}
+                  </Link>
+                )}
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Lead packs */}
+      <section className="section section--alt">
+        <div className="container">
+          <div className="section-header">
+            <h2>{t('packs.leadsTitle')}</h2>
+            <p>{t('packs.leadsSubtitle')}</p>
+          </div>
+          <div className="pricing-grid pricing-grid--4 pricing-grid--centered">
+            {leadPacks.map((pack) => (
+              <div key={pack.key} className={`pricing-card ${pack.popular ? 'popular' : ''}`}>
+                {pack.popular && <div className="popular-badge">{t('packs.recommended')}</div>}
+                <h3>{pack.name}</h3>
+                <p className="description">{pack.label}</p>
+                <div className="price">
+                  <span className="amount">{pack.price}</span>
+                  <span className="currency">€</span>
+                </div>
+                <ul className="features-list">
+                  {pack.features.map((f) => <li key={f}>✅ {f}</li>)}
+                </ul>
+                <Link to="/contact" className={`btn ${pack.popular ? 'btn-primary' : 'btn-outline'}`} style={{ width: '100%', justifyContent: 'center' }}>
+                  {t('packs.choosePlan')}
+                </Link>
+              </div>
+            ))}
+          </div>
+          <p className="leads-note">⚡ {t('packs.leadsNote')}</p>
         </div>
       </section>
 
