@@ -53,7 +53,7 @@ const plans = [
     key: 'horizon',
     price: '99',
     popular: false,
-    badge: null,
+    badge: 'RECOMMANDÉ',
     features: [
       { icon: '✅', key: 'lifetimeMembership' },
       { icon: '✅', key: 'clientSpaceAccess' },
@@ -66,13 +66,15 @@ const plans = [
   {
     key: 'silver',
     price: '179',
-    popular: true,
-    badge: 'POPULAIRE',
+    popular: false,
+    badge: null,
+    subtitle: 'À partir de 20 projets • Grands comptes',
     features: [
       { icon: '✅', key: 'lifetimeMembership' },
       { icon: '✅', key: 'clientSpaceAccess' },
       { icon: '✅', key: 'zoneProjects' },
       { icon: '✅', key: 'silver_project' },
+      { icon: '✅', key: 'silver_from' },
       { icon: '✅', key: 'improvedVisibility' },
       { icon: '✅', key: 'featuredProfile' },
       { icon: '✅', key: 'priorityWhatsappSupport' },
@@ -81,8 +83,8 @@ const plans = [
   {
     key: 'premium',
     price: '229',
-    popular: false,
-    badge: 'RECOMMANDÉ',
+    popular: true,
+    badge: null,
     features: [
       { icon: '✅', key: 'lifetimeMembership' },
       { icon: '✅', key: 'clientSpaceAccess' },
@@ -113,7 +115,7 @@ const perProjectPlans = [
   },
   {
     key: 'premium',
-    price: '39',
+    price: '79',
     label: 'Projet exclusif sans concurrence',
     popular: true,
     badge: null,
@@ -293,6 +295,9 @@ export default function DevenirProPage() {
                   <span className="currency">€</span>
                   <span className="price-period">{t('packs.perYear')}</span>
                 </div>
+                {plan.subtitle && (
+                  <p style={{ color: 'var(--color-primary)', fontWeight: 600, fontSize: '0.95rem', marginTop: -20, marginBottom: 8 }}>{plan.subtitle}</p>
+                )}
                 <p className="plan-desc">{t(`packs.${plan.key}_desc`)}</p>
                 <ul className="features-list">
                   {plan.features.map((f) => (

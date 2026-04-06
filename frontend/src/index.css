@@ -1618,6 +1618,7 @@ input, textarea, select { font-family: inherit; }
 .pricing-card.popular {
   border-color: var(--color-primary);
   box-shadow: 0 0 0 1px var(--color-primary), var(--shadow-lg);
+  background: #eff6ff;
 }
 
 .popular-badge {
