@@ -50,6 +50,7 @@ router.get('/accounts', authMiddleware, async (req, res) => {
   try {
     const accounts = await ArtisanUser.find()
       .populate('registration', 'company firstName lastName plan renewsAt status')
+      .select('email registration nextProjectDate createdAt')
       .sort({ createdAt: -1 });
     res.json(accounts);
   } catch (err) {
@@ -150,6 +151,7 @@ router.get('/dashboard', artisanAuth, async (req, res) => {
         lastName: registration.lastName,
         trade: registration.trade,
         postalCode: registration.postalCode,
+        nextProjectDate: artisan.nextProjectDate,
       },
       subscription: {
         plan: registration.plan,
@@ -162,6 +164,23 @@ router.get('/dashboard', artisanAuth, async (req, res) => {
     });
   } catch (err) {
     res.status(500).json({ message: err.message });
+  }
+});
+
+// ── Artisan: set next project date ───────────────────────
+// PATCH /api/artisan/availability — artisan only
+router.patch('/availability', artisanAuth, async (req, res) => {
+  try {
+    const { nextProjectDate } = req.body;
+    const artisan = await ArtisanUser.findByIdAndUpdate(
+      req.artisan.id,
+      { nextProjectDate: nextProjectDate || null },
+      { new: true }
+    );
+    if (!artisan) return res.status(404).json({ message: 'Account not found' });
+    res.json({ nextProjectDate: artisan.nextProjectDate });
+  } catch (err) {
+    res.status(400).json({ message: err.message });
   }
 });
 

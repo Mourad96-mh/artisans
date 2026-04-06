@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useArtisanAuth } from '../../context/ArtisanAuthContext';
-import { fetchArtisanDashboard } from '../../services/api';
+import { fetchArtisanDashboard, updateArtisanAvailability } from '../../services/api';
 
 const TRADES_FR = {
   plumbing: 'Plomberie', electrical: 'Électricité', painting: 'Peinture',
@@ -29,13 +29,35 @@ export default function ArtisanDashboardPage() {
   const [data, setData] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
+  const [nextDate, setNextDate] = useState('');
+  const [dateSaving, setDateSaving] = useState(false);
+  const [dateSaved, setDateSaved] = useState(false);
 
   useEffect(() => {
     fetchArtisanDashboard()
-      .then(setData)
+      .then((d) => {
+        setData(d);
+        if (d.artisan.nextProjectDate) {
+          setNextDate(d.artisan.nextProjectDate.slice(0, 10));
+        }
+      })
       .catch((err) => setError(err.message))
       .finally(() => setLoading(false));
   }, []);
+
+  const handleDateSave = async () => {
+    setDateSaving(true);
+    setDateSaved(false);
+    try {
+      await updateArtisanAvailability(nextDate || null);
+      setDateSaved(true);
+      setTimeout(() => setDateSaved(false), 3000);
+    } catch (err) {
+      console.error(err);
+    } finally {
+      setDateSaving(false);
+    }
+  };
 
   if (loading) return <div className="artisan-loading">Chargement…</div>;
   if (error) return <div className="artisan-loading" style={{ color: '#dc2626' }}>{error}</div>;
@@ -46,7 +68,7 @@ export default function ArtisanDashboardPage() {
     <div className="artisan-layout">
       {/* Sidebar */}
       <aside className="artisan-sidebar">
-        <div className="artisan-sidebar-logo">🔨 Réseau<span>Artisans</span></div>
+        <div className="artisan-sidebar-logo"><img src="/logo.png" alt="Réseau Artisans" style={{ height: '58px', width: 'auto' }} /></div>
         <div className="artisan-sidebar-profile">
           <div className="artisan-avatar">{data.artisan.firstName?.[0]}{data.artisan.lastName?.[0]}</div>
           <div>
@@ -74,6 +96,39 @@ export default function ArtisanDashboardPage() {
         </header>
 
         <div className="artisan-content">
+          {/* Next project date */}
+          <div className="artisan-section">
+            <h2>Disponibilité pour le prochain projet</h2>
+            <div className="artisan-availability">
+              <p>Indiquez à quelle date vous serez disponible pour un nouveau projet :</p>
+              <div className="artisan-availability-row">
+                <input
+                  type="date"
+                  value={nextDate}
+                  min={new Date().toISOString().slice(0, 10)}
+                  onChange={(e) => setNextDate(e.target.value)}
+                  className="artisan-date-input"
+                />
+                <button
+                  className="btn btn-primary"
+                  onClick={handleDateSave}
+                  disabled={dateSaving}
+                >
+                  {dateSaving ? 'Enregistrement…' : 'Enregistrer'}
+                </button>
+                {nextDate && (
+                  <button
+                    className="btn btn-outline"
+                    onClick={() => { setNextDate(''); updateArtisanAvailability(null).catch(console.error); }}
+                  >
+                    Effacer
+                  </button>
+                )}
+              </div>
+              {dateSaved && <p className="artisan-date-saved">✅ Date enregistrée avec succès</p>}
+            </div>
+          </div>
+
           {/* Projects */}
           <div className="artisan-section">
             <h2>Mes projets assignés <span className="artisan-count">{projects.length}</span></h2>

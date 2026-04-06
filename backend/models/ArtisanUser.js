@@ -9,6 +9,7 @@ const artisanUserSchema = new mongoose.Schema({
     ref: 'Registration',
     required: true,
   },
+  nextProjectDate: { type: Date, default: null },
 }, { timestamps: true });
 
 artisanUserSchema.pre('save', async function (next) {

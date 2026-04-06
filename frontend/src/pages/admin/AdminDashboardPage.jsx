@@ -204,7 +204,7 @@ export default function AdminDashboardPage() {
     <div className="admin-layout">
       {/* Sidebar */}
       <aside className="admin-sidebar">
-        <div className="admin-sidebar-logo">🔨 Réseau<span>Artisans</span></div>
+        <div className="admin-sidebar-logo"><img src="/logo.png" alt="Réseau Artisans" style={{ height: '58px', width: 'auto' }} /></div>
         <nav className="admin-sidebar-nav">
           <a className={tab === 'artisans' ? 'active' : ''} onClick={() => setTab('artisans')}>
             🔧 Artisans {regStats && <span className="admin-nav-count">{regStats.total}</span>}
@@ -265,8 +265,12 @@ export default function AdminDashboardPage() {
                   <span className="admin-stat-label">Pack Premium</span>
                 </div>
                 <div className="admin-stat-card admin-stat-card--plan">
-                  <span className="admin-stat-value">{regStats.byPlan?.find((p) => p._id === 'decouverte')?.count || 0}</span>
-                  <span className="admin-stat-label">Pack Découverte</span>
+                  <span className="admin-stat-value">{regStats.byPlan?.find((p) => p._id === 'silver')?.count || 0}</span>
+                  <span className="admin-stat-label">Pack Silver</span>
+                </div>
+                <div className="admin-stat-card admin-stat-card--plan">
+                  <span className="admin-stat-value">{regStats.byPlan?.find((p) => p._id === 'horizon')?.count || 0}</span>
+                  <span className="admin-stat-label">Pack Horizon</span>
                 </div>
               </div>
             )}
@@ -282,7 +286,8 @@ export default function AdminDashboardPage() {
               </select>
               <select value={regFilters.plan} onChange={(e) => setRegFilters((p) => ({ ...p, plan: e.target.value }))}>
                 <option value="">Tous les packs</option>
-                <option value="decouverte">Découverte</option>
+                <option value="horizon">Horizon</option>
+                <option value="silver">Silver</option>
                 <option value="premium">Premium</option>
               </select>
               <button
@@ -302,7 +307,7 @@ export default function AdminDashboardPage() {
                     <thead>
                       <tr>
                         <th>Entreprise</th><th>Nom</th><th>Email</th><th>Téléphone</th>
-                        <th>Métier</th><th>Pack</th><th>Statut</th><th>Renouvellement</th><th>Portail</th><th>Inscription</th><th></th>
+                        <th>Métier</th><th>Pack</th><th>Statut</th><th>Renouvellement</th><th>Prochain projet</th><th>Portail</th><th>Inscription</th><th></th>
                       </tr>
                     </thead>
                     <tbody>
@@ -320,7 +325,7 @@ export default function AdminDashboardPage() {
                           <td>{TRADES_FR[r.trade] || r.trade}</td>
                           <td>
                             <span className={`plan-badge plan-badge--${r.plan}`}>
-                              {r.plan === 'premium' ? 'Premium' : 'Découverte'}
+                              {r.plan === 'premium' ? 'Premium' : r.plan === 'silver' ? 'Silver' : 'Horizon'}
                             </span>
                           </td>
                           <td>
@@ -338,6 +343,19 @@ export default function AdminDashboardPage() {
                             <button className="admin-renew-btn" onClick={() => handleRenew(r._id)} title="Renouveler +1 an">
                               ↻ +1 an
                             </button>
+                          </td>
+                          <td>
+                            {(() => {
+                              const account = artisanAccounts.find((a) => a.registration?._id === r._id);
+                              if (!account?.nextProjectDate) return <span style={{ color: 'var(--color-gray)', fontSize: '0.82rem' }}>—</span>;
+                              const d = new Date(account.nextProjectDate);
+                              const isPast = d < new Date();
+                              return (
+                                <span style={{ fontWeight: 600, fontSize: '0.85rem', color: isPast ? '#dc2626' : '#059669' }}>
+                                  {isPast ? '⚠ ' : '📅 '}{d.toLocaleDateString('fr-FR')}
+                                </span>
+                              );
+                            })()}
                           </td>
                           <td>
                             {(() => {
@@ -458,7 +476,7 @@ export default function AdminDashboardPage() {
                               {artisanAccounts.filter((a) => a.registration).map((a) => (
                                 <option key={a._id} value={a._id}>
                                   {a.registration.company || a.email}
-                                  {a.registration.plan ? ` — ${a.registration.plan === 'premium' ? 'Premium' : 'Découverte'}` : ''}
+                                  {a.registration.plan ? ` — ${a.registration.plan === 'premium' ? 'Premium' : a.registration.plan === 'silver' ? 'Silver' : 'Horizon'}` : ''}
                                 </option>
                               ))}
                             </select>
