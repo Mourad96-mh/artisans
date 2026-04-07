@@ -54,7 +54,7 @@ export default function Footer() {
         </div>
 
         <div className="footer-bottom">
-          <span>© {year} RéseauArtisans. {t('footer.rights')}.</span>
+          <span>© {year} union professionnels. {t('footer.rights')}.</span>
           <div className="footer-bottom-links">
             <a href="#">{t('footer.legal')}</a>
             <a href="#">{t('footer.privacy')}</a>

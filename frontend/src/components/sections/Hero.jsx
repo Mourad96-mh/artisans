@@ -2,10 +2,10 @@ import { useTranslation } from 'react-i18next';
 import { Link } from 'react-router-dom';
 
 const countries = [
-  { flag: '🇫🇷', name: 'France' },
-  { flag: '🇧🇪', name: 'Belgique' },
-  { flag: '🇨🇦', name: 'Canada' },
-  { flag: '🇨🇭', name: 'Suisse' },
+  { code: 'fr', name: 'France' },
+  { code: 'be', name: 'Belgique' },
+  { code: 'ca', name: 'Canada' },
+  { code: 'ch', name: 'Suisse' },
 ];
 
 const heroPhotos = [
@@ -29,7 +29,13 @@ export default function Hero() {
             <div className="hero-countries">
               {countries.map((c) => (
                 <div key={c.name} className="hero-country">
-                  <span>{c.flag}</span>
+                  <img
+                    src={`https://flagcdn.com/w20/${c.code}.png`}
+                    srcSet={`https://flagcdn.com/w40/${c.code}.png 2x`}
+                    width="20"
+                    height="15"
+                    alt={c.name}
+                  />
                   <span>{c.name}</span>
                 </div>
               ))}
