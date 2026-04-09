@@ -20,8 +20,8 @@ const homeJsonLd = {
     name: 'Réseau Artisans',
     address: {
       '@type': 'PostalAddress',
-      streetAddress: '29 rue Tronchet',
-      postalCode: '75008',
+      streetAddress: "6 Rue d'Armaillé",
+      postalCode: '75017',
       addressLocality: 'Paris',
       addressCountry: 'FR',
     },
