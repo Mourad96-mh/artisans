@@ -234,21 +234,6 @@ export default function AdminDashboardPage() {
         <div className="admin-sidebar-footer">
           <span>{admin?.email}</span>
           <div style={{ display: 'flex', gap: 8 }}>
-            <button
-              onClick={() => setNotifOpen((o) => !o)}
-              style={{ position: 'relative' }}
-              title="Notifications"
-            >
-              🔔
-              {notifications.length > 0 && (
-                <span style={{
-                  position: 'absolute', top: -4, right: -4,
-                  background: '#dc2626', color: '#fff', borderRadius: '50%',
-                  fontSize: '0.65rem', fontWeight: 700, minWidth: 17, height: 17,
-                  display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '0 3px',
-                }}>{notifications.length}</span>
-              )}
-            </button>
             <button onClick={() => { setSettingsOpen(true); setSettingsError(''); setSettingsSuccess(''); }}>⚙ Compte</button>
             <button onClick={logout}>Déconnexion</button>
           </div>
@@ -281,7 +266,30 @@ export default function AdminDashboardPage() {
         </div>
         <header className="admin-header">
           <h1>{tab === 'artisans' ? 'Inscriptions Artisans' : 'Projets Particuliers'}</h1>
+          <button
+            className="admin-notif-bell"
+            onClick={() => setNotifOpen((o) => !o)}
+            title="Notifications"
+          >
+            🔔
+            {notifications.length > 0 && (
+              <span className="admin-notif-badge">{notifications.length}</span>
+            )}
+          </button>
         </header>
+
+        {/* Notification strip */}
+        {notifications.length > 0 && (
+          <div className="admin-notif-strip" onClick={() => setNotifOpen(true)}>
+            <span>🔔</span>
+            <span>
+              <strong>{notifications.length} notification{notifications.length > 1 ? 's' : ''}</strong>
+              {' '}— {notifications[0].company || notifications[0].artisanEmail} a mis à jour sa disponibilité
+              {notifications.length > 1 ? ` (+${notifications.length - 1} autre${notifications.length > 2 ? 's' : ''})` : ''}
+            </span>
+            <span className="admin-notif-strip-cta">Voir →</span>
+          </div>
+        )}
 
         {/* ── ARTISANS TAB ── */}
         {tab === 'artisans' && (
