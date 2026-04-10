@@ -46,7 +46,7 @@ export default function Footer() {
           <div className="footer-col">
             <h4>Contact</h4>
             <ul>
-              <li><a href="tel:0162260900">{t('contact.phoneNumber')}</a></li>
+              <li><a href="tel:0100000000">{t('contact.phoneNumber')}</a></li>
               <li><a href="mailto:contact@reseauxartizano.com">{t('contact.emailAddress')}</a></li>
               <li><a href="#">{t('contact.address')}</a></li>
             </ul>

@@ -12,7 +12,10 @@ const allowedOrigins = [
   'https://www.reseauxartizano.com',
   process.env.CLIENT_URL,
 ].filter(Boolean);
-app.use(cors({ origin: allowedOrigins }));
+
+const corsOptions = { origin: allowedOrigins, credentials: true };
+app.options('*', cors(corsOptions));
+app.use(cors(corsOptions));
 app.use(express.json());
 
 // Routes

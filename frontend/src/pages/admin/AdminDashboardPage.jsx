@@ -1,4 +1,5 @@
 import { useState, useEffect, useCallback } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { useAdminAuth } from '../../context/AdminAuthContext';
 import {
   fetchRegistrations, fetchStats, updateStatus, deleteRegistration, renewRegistration,
@@ -30,6 +31,7 @@ const TRADES_FR = {
 
 export default function AdminDashboardPage() {
   const { admin, logout } = useAdminAuth();
+  const navigate = useNavigate();
   const [tab, setTab] = useState('artisans');
 
   // ── Artisans state ──
@@ -57,6 +59,7 @@ export default function AdminDashboardPage() {
   const [settingsForm, setSettingsForm] = useState({ email: '', currentPassword: '', newPassword: '', confirmPassword: '' });
   const [settingsError, setSettingsError] = useState('');
   const [settingsSuccess, setSettingsSuccess] = useState('');
+  const [settingsLoading, setSettingsLoading] = useState(false);
 
   // ── Projects state ──
   const [projects, setProjects] = useState([]);
@@ -185,15 +188,20 @@ export default function AdminDashboardPage() {
     if (settingsForm.newPassword && settingsForm.newPassword !== settingsForm.confirmPassword) {
       return setSettingsError('Les nouveaux mots de passe ne correspondent pas.');
     }
+    setSettingsLoading(true);
     try {
       const payload = { currentPassword: settingsForm.currentPassword };
       if (settingsForm.email) payload.email = settingsForm.email;
       if (settingsForm.newPassword) payload.newPassword = settingsForm.newPassword;
       await updateAdminCredentials(payload);
-      setSettingsSuccess('Identifiants mis à jour avec succès.');
-      setSettingsForm({ email: '', currentPassword: '', newPassword: '', confirmPassword: '' });
+      setSettingsSuccess('Identifiants mis à jour. Redirection vers la connexion…');
+      setTimeout(() => {
+        logout();
+        navigate('/admin/login');
+      }, 1500);
     } catch (err) {
       setSettingsError(err.message);
+      setSettingsLoading(false);
     }
   };
 
@@ -595,7 +603,7 @@ export default function AdminDashboardPage() {
 
       {/* Admin settings modal */}
       {settingsOpen && (
-        <div className="modal-overlay" onClick={() => setSettingsOpen(false)}>
+        <div className="modal-overlay" onClick={() => !settingsLoading && setSettingsOpen(false)}>
           <div className="modal-card" onClick={(e) => e.stopPropagation()}>
             <h2>⚙ Mes identifiants</h2>
             <p>Laissez un champ vide pour ne pas le modifier. Le mot de passe actuel est toujours requis.</p>
@@ -607,29 +615,44 @@ export default function AdminDashboardPage() {
                 <input type="password" placeholder="Requis pour valider les modifications"
                   value={settingsForm.currentPassword}
                   onChange={(e) => setSettingsForm((p) => ({ ...p, currentPassword: e.target.value }))}
+                  disabled={settingsLoading}
                   required />
               </div>
               <div className="form-group">
                 <label>Nouvel email (optionnel)</label>
                 <input type="email" placeholder={admin?.email}
                   value={settingsForm.email}
-                  onChange={(e) => setSettingsForm((p) => ({ ...p, email: e.target.value }))} />
+                  onChange={(e) => setSettingsForm((p) => ({ ...p, email: e.target.value }))}
+                  disabled={settingsLoading} />
               </div>
               <div className="form-group">
                 <label>Nouveau mot de passe (optionnel)</label>
                 <input type="password" placeholder="Laisser vide pour ne pas changer"
                   value={settingsForm.newPassword}
-                  onChange={(e) => setSettingsForm((p) => ({ ...p, newPassword: e.target.value }))} />
+                  onChange={(e) => setSettingsForm((p) => ({ ...p, newPassword: e.target.value }))}
+                  disabled={settingsLoading} />
               </div>
               <div className="form-group">
                 <label>Confirmer le nouveau mot de passe</label>
                 <input type="password" placeholder="Confirmer"
                   value={settingsForm.confirmPassword}
-                  onChange={(e) => setSettingsForm((p) => ({ ...p, confirmPassword: e.target.value }))} />
+                  onChange={(e) => setSettingsForm((p) => ({ ...p, confirmPassword: e.target.value }))}
+                  disabled={settingsLoading} />
               </div>
               <div style={{ display: 'flex', gap: 12, marginTop: 8 }}>
-                <button type="submit" className="btn btn-primary">Enregistrer</button>
-                <button type="button" className="btn btn-outline" onClick={() => setSettingsOpen(false)}>Annuler</button>
+                <button type="submit" className="btn btn-primary" disabled={settingsLoading}
+                  style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+                  {settingsLoading && (
+                    <span style={{
+                      width: 16, height: 16, border: '2px solid rgba(255,255,255,0.4)',
+                      borderTopColor: '#fff', borderRadius: '50%',
+                      display: 'inline-block', animation: 'spin 0.7s linear infinite',
+                    }} />
+                  )}
+                  {settingsLoading ? 'Enregistrement…' : 'Enregistrer'}
+                </button>
+                <button type="button" className="btn btn-outline" disabled={settingsLoading}
+                  onClick={() => setSettingsOpen(false)}>Annuler</button>
               </div>
             </form>
           </div>
