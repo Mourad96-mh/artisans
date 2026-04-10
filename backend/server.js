@@ -23,6 +23,7 @@ app.use('/api/auth', require('./routes/auth'));
 app.use('/api/registrations', require('./routes/registrations'));
 app.use('/api/projects', require('./routes/projects'));
 app.use('/api/artisan', require('./routes/artisan'));
+app.use('/api/notifications', require('./routes/notifications'));
 
 app.get('/', (req, res) => res.json({ message: 'Artisan API running' }));
 app.get('/ping', (req, res) => res.json({ status: 'ok' }));

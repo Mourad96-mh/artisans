@@ -3,6 +3,7 @@ const jwt = require('jsonwebtoken');
 const ArtisanUser = require('../models/ArtisanUser');
 const Registration = require('../models/Registration');
 const Project = require('../models/Project');
+const Notification = require('../models/Notification');
 const authMiddleware = require('../middleware/auth');
 const artisanAuth = require('../middleware/artisanAuth');
 
@@ -176,8 +177,19 @@ router.patch('/availability', artisanAuth, async (req, res) => {
       req.artisan.id,
       { nextProjectDate: nextProjectDate || null },
       { new: true }
-    );
+    ).populate('registration', 'company');
     if (!artisan) return res.status(404).json({ message: 'Account not found' });
+
+    if (nextProjectDate) {
+      await Notification.create({
+        type: 'availability',
+        artisanId: artisan._id,
+        artisanEmail: artisan.email,
+        company: artisan.registration?.company || null,
+        nextProjectDate,
+      });
+    }
+
     res.json({ nextProjectDate: artisan.nextProjectDate });
   } catch (err) {
     res.status(400).json({ message: err.message });

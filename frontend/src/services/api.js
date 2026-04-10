@@ -188,6 +188,22 @@ export async function updateArtisanAvailability(nextProjectDate) {
   return res.json();
 }
 
+// ── Admin notifications ──────────────────────────────────
+export async function fetchNotifications() {
+  const res = await fetch(`${BASE}/api/notifications`, { headers: authHeaders() });
+  if (!res.ok) throw new Error('Failed to fetch notifications');
+  return res.json();
+}
+
+export async function dismissNotification(id) {
+  const res = await fetch(`${BASE}/api/notifications/${id}`, {
+    method: 'DELETE',
+    headers: authHeaders(),
+  });
+  if (!res.ok) throw new Error('Failed to dismiss notification');
+  return res.json();
+}
+
 // ── Admin projects ───────────────────────────────────────
 export async function fetchProjects(params = {}) {
   const query = new URLSearchParams(params).toString();

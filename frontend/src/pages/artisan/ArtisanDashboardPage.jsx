@@ -31,7 +31,7 @@ export default function ArtisanDashboardPage() {
   const [error, setError] = useState('');
   const [nextDate, setNextDate] = useState('');
   const [dateSaving, setDateSaving] = useState(false);
-  const [dateSaved, setDateSaved] = useState(false);
+  const [dateStatus, setDateStatus] = useState(null); // { type: 'success'|'error', message: string }
 
   useEffect(() => {
     fetchArtisanDashboard()
@@ -46,14 +46,14 @@ export default function ArtisanDashboardPage() {
   }, []);
 
   const handleDateSave = async () => {
+    if (!nextDate) return;
     setDateSaving(true);
-    setDateSaved(false);
+    setDateStatus(null);
     try {
-      await updateArtisanAvailability(nextDate || null);
-      setDateSaved(true);
-      setTimeout(() => setDateSaved(false), 3000);
+      await updateArtisanAvailability(nextDate);
+      setDateStatus({ type: 'success', message: `Disponibilité enregistrée pour le ${new Date(nextDate).toLocaleDateString('fr-FR', { day: 'numeric', month: 'long', year: 'numeric' })}. L'équipe a été notifiée.` });
     } catch (err) {
-      console.error(err);
+      setDateStatus({ type: 'error', message: err.message || 'Une erreur est survenue. Veuillez réessayer.' });
     } finally {
       setDateSaving(false);
     }
@@ -106,26 +106,48 @@ export default function ArtisanDashboardPage() {
                   type="date"
                   value={nextDate}
                   min={new Date().toISOString().slice(0, 10)}
-                  onChange={(e) => setNextDate(e.target.value)}
+                  onChange={(e) => { setNextDate(e.target.value); setDateStatus(null); }}
                   className="artisan-date-input"
+                  disabled={dateSaving}
                 />
                 <button
                   className="btn btn-primary"
                   onClick={handleDateSave}
-                  disabled={dateSaving}
+                  disabled={dateSaving || !nextDate}
+                  style={{ display: 'flex', alignItems: 'center', gap: 8 }}
                 >
+                  {dateSaving && (
+                    <span style={{
+                      width: 15, height: 15, border: '2px solid rgba(255,255,255,0.4)',
+                      borderTopColor: '#fff', borderRadius: '50%',
+                      display: 'inline-block', animation: 'spin 0.7s linear infinite',
+                    }} />
+                  )}
                   {dateSaving ? 'Enregistrement…' : 'Enregistrer'}
                 </button>
-                {nextDate && (
+                {nextDate && !dateSaving && (
                   <button
                     className="btn btn-outline"
-                    onClick={() => { setNextDate(''); updateArtisanAvailability(null).catch(console.error); }}
+                    onClick={() => { setNextDate(''); setDateStatus(null); updateArtisanAvailability(null).catch(console.error); }}
                   >
                     Effacer
                   </button>
                 )}
               </div>
-              {dateSaved && <p className="artisan-date-saved">✅ Date enregistrée avec succès</p>}
+              {dateStatus && (
+                <div className={dateStatus.type === 'success' ? 'artisan-date-saved' : 'artisan-date-error'}
+                  style={{ display: 'flex', alignItems: 'flex-start', gap: 10, marginTop: 12 }}>
+                  <span style={{ fontSize: '1.1rem', flexShrink: 0 }}>
+                    {dateStatus.type === 'success' ? '✅' : '❌'}
+                  </span>
+                  <span>{dateStatus.message}</span>
+                  <button
+                    onClick={() => setDateStatus(null)}
+                    style={{ marginLeft: 'auto', background: 'none', border: 'none', cursor: 'pointer', opacity: 0.6, fontSize: '1rem', flexShrink: 0 }}
+                    title="Fermer"
+                  >✕</button>
+                </div>
+              )}
             </div>
           </div>
 

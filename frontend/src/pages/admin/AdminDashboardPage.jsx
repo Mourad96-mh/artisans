@@ -5,7 +5,7 @@ import {
   fetchRegistrations, fetchStats, updateStatus, deleteRegistration, renewRegistration,
   fetchProjects, fetchProjectStats, updateProjectStatus, deleteProject,
   fetchArtisanAccounts, createArtisanAccount, updateArtisanCredentials, assignProject,
-  updateAdminCredentials,
+  updateAdminCredentials, fetchNotifications, dismissNotification,
 } from '../../services/api';
 
 const REGISTRATION_STATUSES = {
@@ -61,6 +61,10 @@ export default function AdminDashboardPage() {
   const [settingsSuccess, setSettingsSuccess] = useState('');
   const [settingsLoading, setSettingsLoading] = useState(false);
 
+  // ── Notifications state ──
+  const [notifications, setNotifications] = useState([]);
+  const [notifOpen, setNotifOpen] = useState(false);
+
   // ── Projects state ──
   const [projects, setProjects] = useState([]);
   const [projStats, setProjStats] = useState(null);
@@ -101,7 +105,13 @@ export default function AdminDashboardPage() {
   useEffect(() => { loadProjects(); }, [loadProjects]);
   useEffect(() => {
     fetchArtisanAccounts().then(setArtisanAccounts).catch(() => {});
+    fetchNotifications().then(setNotifications).catch(() => {});
   }, []);
+
+  const handleDismissNotification = async (id) => {
+    await dismissNotification(id).catch(() => {});
+    setNotifications((prev) => prev.filter((n) => n._id !== id));
+  };
 
   // ── Artisan handlers ──
   const handleRegStatusChange = async (id, status) => {
@@ -224,6 +234,21 @@ export default function AdminDashboardPage() {
         <div className="admin-sidebar-footer">
           <span>{admin?.email}</span>
           <div style={{ display: 'flex', gap: 8 }}>
+            <button
+              onClick={() => setNotifOpen((o) => !o)}
+              style={{ position: 'relative' }}
+              title="Notifications"
+            >
+              🔔
+              {notifications.length > 0 && (
+                <span style={{
+                  position: 'absolute', top: -4, right: -4,
+                  background: '#dc2626', color: '#fff', borderRadius: '50%',
+                  fontSize: '0.65rem', fontWeight: 700, minWidth: 17, height: 17,
+                  display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '0 3px',
+                }}>{notifications.length}</span>
+              )}
+            </button>
             <button onClick={() => { setSettingsOpen(true); setSettingsError(''); setSettingsSuccess(''); }}>⚙ Compte</button>
             <button onClick={logout}>Déconnexion</button>
           </div>
@@ -235,6 +260,17 @@ export default function AdminDashboardPage() {
         <div className="admin-mobile-bar">
           <div>🔨 Réseau<span>Artisans</span></div>
           <div style={{ display: 'flex', gap: 8 }}>
+            <button onClick={() => setNotifOpen((o) => !o)} style={{ position: 'relative' }} title="Notifications">
+              🔔
+              {notifications.length > 0 && (
+                <span style={{
+                  position: 'absolute', top: -4, right: -4,
+                  background: '#dc2626', color: '#fff', borderRadius: '50%',
+                  fontSize: '0.65rem', fontWeight: 700, minWidth: 17, height: 17,
+                  display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '0 3px',
+                }}>{notifications.length}</span>
+              )}
+            </button>
             <button onClick={() => { setSettingsOpen(true); setSettingsError(''); setSettingsSuccess(''); }}>⚙</button>
             <button onClick={logout}>Déconnexion</button>
           </div>
@@ -508,6 +544,49 @@ export default function AdminDashboardPage() {
           </>
         )}
       </div>
+
+      {/* Notifications panel */}
+      {notifOpen && (
+        <div className="modal-overlay" onClick={() => setNotifOpen(false)}>
+          <div className="modal-card" onClick={(e) => e.stopPropagation()} style={{ maxWidth: 480, width: '100%' }}>
+            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 16 }}>
+              <h2 style={{ margin: 0 }}>🔔 Notifications</h2>
+              <button onClick={() => setNotifOpen(false)} style={{ background: 'none', border: 'none', cursor: 'pointer', fontSize: '1.2rem', opacity: 0.5 }}>✕</button>
+            </div>
+            {notifications.length === 0 ? (
+              <p style={{ color: 'var(--color-gray)', textAlign: 'center', padding: '24px 0' }}>Aucune notification.</p>
+            ) : (
+              <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
+                {notifications.map((n) => (
+                  <div key={n._id} style={{
+                    background: '#fefce8', border: '1px solid #fde68a', borderRadius: 10,
+                    padding: '12px 14px', display: 'flex', gap: 12, alignItems: 'flex-start',
+                  }}>
+                    <span style={{ fontSize: '1.4rem', flexShrink: 0 }}>📅</span>
+                    <div style={{ flex: 1, minWidth: 0 }}>
+                      <div style={{ fontWeight: 700, fontSize: '0.92rem' }}>
+                        {n.company || n.artisanEmail}
+                      </div>
+                      <div style={{ fontSize: '0.84rem', color: '#78350f', marginTop: 2 }}>
+                        Disponible à partir du{' '}
+                        <strong>{new Date(n.nextProjectDate).toLocaleDateString('fr-FR', { day: 'numeric', month: 'long', year: 'numeric' })}</strong>
+                      </div>
+                      <div style={{ fontSize: '0.78rem', color: 'var(--color-gray)', marginTop: 4 }}>
+                        {n.artisanEmail} · {new Date(n.createdAt).toLocaleDateString('fr-FR', { day: 'numeric', month: 'short', hour: '2-digit', minute: '2-digit' })}
+                      </div>
+                    </div>
+                    <button
+                      onClick={() => handleDismissNotification(n._id)}
+                      title="Marquer comme lu"
+                      style={{ background: 'none', border: 'none', cursor: 'pointer', fontSize: '1rem', opacity: 0.5, flexShrink: 0, padding: '2px 4px' }}
+                    >✕</button>
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
+        </div>
+      )}
 
       {/* Create account modal */}
       {createModal && (
