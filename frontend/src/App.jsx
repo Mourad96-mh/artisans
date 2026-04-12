@@ -4,6 +4,7 @@ import './i18n';
 import { startKeepAlive } from './services/api';
 import { AdminAuthProvider, useAdminAuth } from './context/AdminAuthContext';
 import { ArtisanAuthProvider, useArtisanAuth } from './context/ArtisanAuthContext';
+import { CountryProvider } from './context/CountryContext';
 import ArtisanLoginPage from './pages/artisan/ArtisanLoginPage';
 import ArtisanDashboardPage from './pages/artisan/ArtisanDashboardPage';
 import Header from './components/layout/Header';
@@ -55,6 +56,7 @@ export default function App() {
   }, []);
 
   return (
+    <CountryProvider>
     <AdminAuthProvider>
       <ArtisanAuthProvider>
         <BrowserRouter>
@@ -68,5 +70,6 @@ export default function App() {
         </BrowserRouter>
       </ArtisanAuthProvider>
     </AdminAuthProvider>
+    </CountryProvider>
   );
 }

@@ -2,6 +2,7 @@ import { useState, useRef } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Link } from 'react-router-dom';
 import { submitRegistration } from '../services/api';
+import { useCurrency } from '../hooks/useCurrency';
 
 const trades = ['plumbing', 'electrical', 'painting', 'masonry', 'hvac', 'carpentry', 'roofing', 'tiling'];
 
@@ -87,15 +88,16 @@ const perProjectPlans = [
   },
   {
     key: 'pro',
-    price: '19',
+    price: '',
     label: 'Meilleur rapport qualité/prix',
     popular: false,
-    badge: '🔥 OFFRE',
+    badge: 'PRO',
     features: [
       'Accès à des projets qualifiés dans votre zone',
       'Profil artisan visible',
       'Support client prioritaire',
       'Tarif le plus compétitif du marché',
+      'Projet exclusif 0 concurrent',
     ],
   },
 ];
@@ -164,6 +166,7 @@ const leadPacks = [
 
 export default function PacksPage() {
   const { t } = useTranslation();
+  const { currency, convert } = useCurrency();
   const [selectedPlan, setSelectedPlan] = useState(null);
   const [form, setForm] = useState({
     company: '', firstName: '', lastName: '',
@@ -239,8 +242,8 @@ export default function PacksPage() {
                 <h3>{t(`packs.${plan.key}`)}</h3>
                 <p className="description">{t('packs.oneTimePayment')}</p>
                 <div className="price">
-                  <span className="amount">{plan.price}</span>
-                  <span className="currency">€</span>
+                  <span className="amount">{convert(plan.price)}</span>
+                  <span className="currency">{currency.symbol}</span>
                   <span className="price-period">{t('packs.perYear')}</span>
                 </div>
                 {plan.subtitle && (
@@ -283,8 +286,8 @@ export default function PacksPage() {
                 <div className="price">
                   {plan.price ? (
                     <>
-                      <span className="amount">{plan.price}</span>
-                      <span className="currency">€</span>
+                      <span className="amount">{convert(plan.price)}</span>
+                      <span className="currency">{currency.symbol}</span>
                       <span className="price-period">{t('packs.perProjectUnit')}</span>
                     </>
                   ) : (
@@ -323,8 +326,8 @@ export default function PacksPage() {
                 <h3>{pack.name}</h3>
                 <p className="description">{pack.label}</p>
                 <div className="price">
-                  <span className="amount">{pack.price}</span>
-                  <span className="currency">€</span>
+                  <span className="amount">{convert(pack.price)}</span>
+                  <span className="currency">{currency.symbol}</span>
                 </div>
                 <ul className="features-list">
                   {pack.features.map((f) => <li key={f}>✅ {f}</li>)}
@@ -364,7 +367,7 @@ export default function PacksPage() {
           <div className="container">
             <div className="selected-plan-reminder">
               <span>✓ {t('packs.choosePlan')} :</span>
-              <strong>{t(`packs.${selectedPlan}`)} — {selectedPlanData.price} €</strong>
+              <strong>{t(`packs.${selectedPlan}`)} — {convert(selectedPlanData.price)} {currency.symbol}</strong>
               <button className="selected-plan-change" onClick={() => setSelectedPlan(null)}>
                 {t('becomePro.changePlan')}
               </button>

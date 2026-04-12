@@ -1,18 +1,12 @@
 import { useState, useRef, useEffect } from 'react';
 import { NavLink, Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
-
-const countries = [
-  { code: 'FR', flag: '🇫🇷', name: 'France' },
-  { code: 'BE', flag: '🇧🇪', name: 'Belgique' },
-  { code: 'CA', flag: '🇨🇦', name: 'Canada' },
-  { code: 'CH', flag: '🇨🇭', name: 'Suisse' },
-];
+import { useCountry } from '../../context/CountryContext';
 
 export default function Header() {
   const { t, i18n } = useTranslation();
+  const { selectedCountry, setSelectedCountry, countries } = useCountry();
   const [menuOpen, setMenuOpen] = useState(false);
-  const [selectedCountry, setSelectedCountry] = useState(countries[0]);
   const [countryOpen, setCountryOpen] = useState(false);
   const countryRef = useRef(null);
 
