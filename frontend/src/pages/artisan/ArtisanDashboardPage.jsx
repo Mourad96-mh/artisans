@@ -120,17 +120,10 @@ export default function ArtisanDashboardPage() {
                 <h2>Plan {PLAN_LABELS[data.subscription.plan] || data.subscription.plan}</h2>
                 <p>Votre accès à l'espace artisan et aux projets assignés.</p>
               </div>
-              {data.subscription.renewsAt && (
-                <div className="subscription-card-right">
-                  <span className="renewal-label">Renouvellement le</span>
-                  <span className="renewal-date">
-                    {new Date(data.subscription.renewsAt).toLocaleDateString('fr-FR', { day: 'numeric', month: 'long', year: 'numeric' })}
-                  </span>
-                  {data.subscription.daysUntilRenewal !== null && data.subscription.daysUntilRenewal <= 30 && (
-                    <span className="renewal-warning">⚠ Dans {data.subscription.daysUntilRenewal} jour{data.subscription.daysUntilRenewal > 1 ? 's' : ''}</span>
-                  )}
-                </div>
-              )}
+              <div className="subscription-card-right">
+                <span className="renewal-label">Projets assignés</span>
+                <span className="renewal-date" style={{ fontSize: '2rem' }}>{projects.length}</span>
+              </div>
             </div>
           )}
 
