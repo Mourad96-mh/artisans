@@ -2,6 +2,12 @@ import { useState, useEffect } from 'react';
 import { useArtisanAuth } from '../../context/ArtisanAuthContext';
 import { fetchArtisanDashboard, updateArtisanAvailability } from '../../services/api';
 
+const PLAN_LABELS = {
+  horizon: 'Horizon',
+  silver: 'Silver',
+  premium: 'Premium',
+};
+
 const TRADES_FR = {
   plumbing: 'Plomberie', electrical: 'Électricité', painting: 'Peinture',
   masonry: 'Maçonnerie', hvac: 'Climatisation', carpentry: 'Menuiserie',
@@ -76,6 +82,13 @@ export default function ArtisanDashboardPage() {
             <span>{data.artisan.company}</span>
           </div>
         </div>
+        {data.subscription && (
+          <div className="artisan-sidebar-plan">
+            <span className={`artisan-plan-dot${data.subscription.isActive ? ' artisan-plan-dot--active' : ''}`} />
+            <span className="artisan-sidebar-plan-name">{PLAN_LABELS[data.subscription.plan] || data.subscription.plan}</span>
+            <span className="artisan-sidebar-plan-status">{data.subscription.isActive ? 'Actif' : 'Inactif'}</span>
+          </div>
+        )}
         <nav className="artisan-sidebar-nav">
           <a className="active">📋 Mes projets</a>
         </nav>
@@ -96,6 +109,31 @@ export default function ArtisanDashboardPage() {
         </header>
 
         <div className="artisan-content">
+          {/* Subscription card */}
+          {data.subscription && (
+            <div className={`subscription-card ${data.subscription.isActive ? 'subscription-card--active' : 'subscription-card--expired'}`}>
+              <div>
+                <div className="subscription-badge" style={{ display: 'flex', alignItems: 'center', gap: 7, width: 'fit-content' }}>
+                  <span className={`artisan-plan-dot${data.subscription.isActive ? ' artisan-plan-dot--active' : ''}`} />
+                  {data.subscription.isActive ? 'Abonnement actif' : 'Abonnement expiré'}
+                </div>
+                <h2>Plan {PLAN_LABELS[data.subscription.plan] || data.subscription.plan}</h2>
+                <p>Votre accès à l'espace artisan et aux projets assignés.</p>
+              </div>
+              {data.subscription.renewsAt && (
+                <div className="subscription-card-right">
+                  <span className="renewal-label">Renouvellement le</span>
+                  <span className="renewal-date">
+                    {new Date(data.subscription.renewsAt).toLocaleDateString('fr-FR', { day: 'numeric', month: 'long', year: 'numeric' })}
+                  </span>
+                  {data.subscription.daysUntilRenewal !== null && data.subscription.daysUntilRenewal <= 30 && (
+                    <span className="renewal-warning">⚠ Dans {data.subscription.daysUntilRenewal} jour{data.subscription.daysUntilRenewal > 1 ? 's' : ''}</span>
+                  )}
+                </div>
+              )}
+            </div>
+          )}
+
           {/* Next project date */}
           <div className="artisan-section">
             <h2>Disponibilité pour le prochain projet</h2>
