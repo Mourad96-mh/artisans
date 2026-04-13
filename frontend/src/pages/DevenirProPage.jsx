@@ -296,7 +296,6 @@ export default function DevenirProPage() {
                 <div className="price">
                   <span className="amount">{convert(plan.price)}</span>
                   <span className="currency">{currency.symbol}</span>
-                  <span className="price-period">{t('packs.perYear')}</span>
                 </div>
                 {plan.subtitle && (
                   <p style={{ color: 'var(--color-primary)', fontWeight: 600, fontSize: '0.95rem', marginTop: -20, marginBottom: 8 }}>{plan.subtitle}</p>
