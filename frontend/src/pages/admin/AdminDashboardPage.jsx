@@ -2,7 +2,7 @@ import { useState, useEffect, useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAdminAuth } from '../../context/AdminAuthContext';
 import {
-  fetchRegistrations, fetchStats, updateStatus, deleteRegistration, renewRegistration,
+  fetchRegistrations, fetchStats, updateStatus, deleteRegistration,
   fetchProjects, fetchProjectStats, updateProjectStatus, deleteProject,
   fetchArtisanAccounts, createArtisanAccount, updateArtisanCredentials, assignProject,
   updateAdminCredentials, fetchNotifications, dismissNotification,
@@ -37,7 +37,7 @@ export default function AdminDashboardPage() {
   // ── Artisans state ──
   const [registrations, setRegistrations] = useState([]);
   const [regStats, setRegStats] = useState(null);
-  const [regFilters, setRegFilters] = useState({ status: '', plan: '', search: '', expired: false });
+  const [regFilters, setRegFilters] = useState({ status: '', plan: '', search: '' });
   const [regLoading, setRegLoading] = useState(true);
   const [artisanAccounts, setArtisanAccounts] = useState([]);
   // create modal: { registrationId, prefillEmail }
@@ -128,10 +128,6 @@ export default function AdminDashboardPage() {
     fetchArtisanAccounts().then(setArtisanAccounts).catch(() => {});
   };
 
-  const handleRenew = async (id) => {
-    const updated = await renewRegistration(id);
-    setRegistrations((prev) => prev.map((r) => r._id === id ? updated : r));
-  };
 
   const copyToClipboard = (text, key) => {
     navigator.clipboard.writeText(text);
@@ -342,12 +338,6 @@ export default function AdminDashboardPage() {
                 <option value="silver">Silver</option>
                 <option value="premium">Premium</option>
               </select>
-              <button
-                className={`btn ${regFilters.expired ? 'btn-primary' : 'btn-outline'}`}
-                onClick={() => setRegFilters((p) => ({ ...p, expired: !p.expired }))}
-              >
-                ⚠ Expirés seulement
-              </button>
               <button className="btn btn-outline" onClick={loadRegistrations}>Actualiser</button>
             </div>
 
@@ -359,15 +349,13 @@ export default function AdminDashboardPage() {
                     <thead>
                       <tr>
                         <th>Entreprise</th><th>Nom</th><th>Email</th><th>Téléphone</th>
-                        <th>Métier</th><th>Pack</th><th>Statut</th><th>Renouvellement</th><th>Prochain projet</th><th>Portail</th><th>Inscription</th><th></th>
+                        <th>Métier</th><th>Pack</th><th>Statut</th><th>Projets assignés</th><th>Prochain projet</th><th>Portail</th><th>Inscription</th><th></th>
                       </tr>
                     </thead>
                     <tbody>
-                      {registrations
-                        .filter((r) => regFilters.expired ? new Date(r.renewsAt) < new Date() : true)
-                        .map((r) => {
-                        const renewsAt = new Date(r.renewsAt);
-                        const expired = renewsAt < new Date();
+                      {registrations.map((r) => {
+                        const account = artisanAccounts.find((a) => a.registration?._id === r._id);
+                        const projectCount = account ? projects.filter((p) => p.assignedTo === account._id).length : 0;
                         return (
                         <tr key={r._id}>
                           <td><strong>{r.company}</strong></td>
@@ -388,13 +376,15 @@ export default function AdminDashboardPage() {
                               ))}
                             </select>
                           </td>
-                          <td>
-                            <span className={expired ? 'renewal-expired' : 'renewal-active'}>
-                              {expired ? '⚠ Expiré' : '✓'} {renewsAt.toLocaleDateString('fr-FR')}
+                          <td style={{ textAlign: 'center' }}>
+                            <span style={{
+                              display: 'inline-block',
+                              fontWeight: 700,
+                              fontSize: '1.1rem',
+                              color: projectCount > 0 ? '#2563eb' : 'var(--color-gray)',
+                            }}>
+                              {projectCount}
                             </span>
-                            <button className="admin-renew-btn" onClick={() => handleRenew(r._id)} title="Renouveler +1 an">
-                              ↻ +1 an
-                            </button>
                           </td>
                           <td>
                             {(() => {
