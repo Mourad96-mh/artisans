@@ -349,7 +349,7 @@ export default function AdminDashboardPage() {
                     <thead>
                       <tr>
                         <th>Entreprise</th><th>Nom</th><th>Email</th><th>Téléphone</th>
-                        <th>Métier</th><th>Pack</th><th>Statut</th><th>Projets assignés</th><th>Prochain projet</th><th>Portail</th><th>Inscription</th><th></th>
+                        <th>Pays</th><th>Métier</th><th>Pack</th><th>Statut</th><th>Projets assignés</th><th>Prochain projet</th><th>Portail</th><th>Inscription</th><th></th>
                       </tr>
                     </thead>
                     <tbody>
@@ -362,6 +362,7 @@ export default function AdminDashboardPage() {
                           <td>{r.firstName} {r.lastName}</td>
                           <td><a href={`mailto:${r.email}`}>{r.email}</a></td>
                           <td>{r.phone}</td>
+                          <td>{r.country || '—'}</td>
                           <td>{TRADES_FR[r.trade] || r.trade}</td>
                           <td>
                             <span className={`plan-badge plan-badge--${r.plan}`}>
@@ -492,7 +493,7 @@ export default function AdminDashboardPage() {
                   <table className="admin-table">
                     <thead>
                       <tr>
-                        <th>Nom</th><th>Email</th><th>Téléphone</th><th>Code postal</th>
+                        <th>Nom</th><th>Email</th><th>Téléphone</th><th>Code postal</th><th>Pays</th>
                         <th>Travaux</th><th>Budget</th><th>Description</th><th>Assigné à</th><th>Statut</th><th>Date</th><th></th>
                       </tr>
                     </thead>
@@ -503,6 +504,7 @@ export default function AdminDashboardPage() {
                           <td><a href={`mailto:${p.email}`}>{p.email}</a></td>
                           <td>{p.phone}</td>
                           <td>{p.postalCode}</td>
+                          <td>{p.country || '—'}</td>
                           <td>{TRADES_FR[p.trade] || p.trade}</td>
                           <td>{p.budget || '—'}</td>
                           <td className="admin-desc-cell" title={p.description}>

@@ -48,7 +48,7 @@ export default function Footer() {
             <ul>
               <li><a href="tel:0100000000">{t('contact.phoneNumber')}</a></li>
               <li><a href="mailto:contact@reseauxartizano.com">{t('contact.emailAddress')}</a></li>
-              <li><a href="#">{t('contact.address')}</a></li>
+              <li><a href="#">{t('contact.officeAddress')}</a></li>
             </ul>
           </div>
         </div>

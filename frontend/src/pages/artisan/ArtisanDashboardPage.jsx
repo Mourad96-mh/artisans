@@ -206,7 +206,9 @@ export default function ArtisanDashboardPage() {
                     <h3>{TRADES_FR[p.trade] || p.trade}</h3>
                     <p className="artisan-project-desc">{p.description}</p>
                     <div className="artisan-project-meta">
+                      {p.address && <span>🏠 {p.address}</span>}
                       <span>📍 {p.postalCode}</span>
+                      <span>🌍 {p.country || '—'}</span>
                       {p.budget && <span>💶 {BUDGET_LABELS[p.budget] || p.budget}</span>}
                     </div>
                     <div className="artisan-project-contact">

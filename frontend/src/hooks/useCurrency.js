@@ -1,9 +1,8 @@
 import { useState, useEffect } from 'react';
 import { useCountry } from '../context/CountryContext';
 
-const EUR_TO_CAD = 1.5;
-
-const CAD_CURRENCY = { code: 'CAD', symbol: 'CA$', rate: EUR_TO_CAD };
+const CAD_CURRENCY = { code: 'CAD', symbol: 'CA$', rate: 1.5 };
+const CHF_CURRENCY = { code: 'CHF', symbol: 'CHF', rate: 0.95 };
 const EUR_CURRENCY = { code: 'EUR', symbol: '€', rate: 1 };
 
 export function useCurrency() {
@@ -18,7 +17,9 @@ export function useCurrency() {
   }, []);
 
   const isCanada = selectedCountry?.code === 'CA' || ipCountry === 'CA';
-  const currency = isCanada ? CAD_CURRENCY : EUR_CURRENCY;
+  const isSwitzerland = selectedCountry?.code === 'CH' || ipCountry === 'CH';
+
+  const currency = isSwitzerland ? CHF_CURRENCY : isCanada ? CAD_CURRENCY : EUR_CURRENCY;
 
   const convert = (eurPrice) => {
     if (!eurPrice) return eurPrice;

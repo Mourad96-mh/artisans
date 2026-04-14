@@ -17,7 +17,9 @@ const registrationSchema = new mongoose.Schema({
   lastName: { type: String, required: true },
   email: { type: String, required: true },
   phone: { type: String, required: true },
+  address: { type: String, default: '' },
   postalCode: { type: String, required: true },
+  country: { type: String, required: true },
   trade: { type: String, required: true },
   comments: { type: String, default: '' },
   status: {

@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom';
 import { submitRegistration } from '../services/api';
 import Seo from '../components/Seo';
 import { useCurrency } from '../hooks/useCurrency';
+import { useCountry } from '../context/CountryContext';
 
 const proJsonLd = {
   '@context': 'https://schema.org',
@@ -210,10 +211,11 @@ const leadPacks = [
 export default function DevenirProPage() {
   const { t } = useTranslation();
   const { currency, convert } = useCurrency();
+  const { setSelectedCountry, countries } = useCountry();
   const [selectedPlan, setSelectedPlan] = useState(null);
   const [form, setForm] = useState({
     company: '', firstName: '', lastName: '',
-    email: '', phone: '', postalCode: '',
+    email: '', phone: '', address: '', postalCode: '', country: '',
     trade: '', otherTrade: '', comments: '', terms: false,
   });
   const [submitted, setSubmitted] = useState(false);
@@ -231,6 +233,10 @@ export default function DevenirProPage() {
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target;
     setForm((prev) => ({ ...prev, [name]: type === 'checkbox' ? checked : value }));
+    if (name === 'country' && value) {
+      const match = countries.find((c) => c.name === value);
+      if (match) setSelectedCountry(match);
+    }
   };
 
   const handleSubmit = async (e) => {
@@ -241,7 +247,7 @@ export default function DevenirProPage() {
       const tradeValue = form.trade === 'other' ? form.otherTrade : form.trade;
       await submitRegistration({ ...form, trade: tradeValue, plan: selectedPlan });
       setSubmitted(true);
-      setForm({ company: '', firstName: '', lastName: '', email: '', phone: '', postalCode: '', trade: '', otherTrade: '', comments: '', terms: false });
+      setForm({ company: '', firstName: '', lastName: '', email: '', phone: '', address: '', postalCode: '', country: '', trade: '', otherTrade: '', comments: '', terms: false });
     } catch (err) {
       setSubmitError(err.message);
     } finally {
@@ -504,31 +510,45 @@ export default function DevenirProPage() {
                         <input name="phone" type="tel" value={form.phone} onChange={handleChange} required />
                       </div>
                     </div>
+                    <div className="form-group">
+                      <label>{t('becomePro.address')}</label>
+                      <input name="address" value={form.address} onChange={handleChange} placeholder={t('becomePro.addressPlaceholder')} />
+                    </div>
                     <div className="form-row">
                       <div className="form-group">
                         <label>{t('becomePro.postalCode')}</label>
                         <input name="postalCode" value={form.postalCode} onChange={handleChange} required />
                       </div>
                       <div className="form-group">
-                        <label>{t('becomePro.trade')}</label>
-                        <select name="trade" value={form.trade} onChange={handleChange} required>
-                          <option value="">{t('becomePro.selectTrade')}</option>
-                          {trades.map((tr) => (
-                            <option key={tr} value={tr}>{t(`trades.${tr}`)}</option>
-                          ))}
-                          <option value="other">Autre métier…</option>
+                        <label>{t('becomePro.country')}</label>
+                        <select name="country" value={form.country} onChange={handleChange} required>
+                          <option value="">{t('becomePro.selectCountry')}</option>
+                          <option value="France">🇫🇷 France</option>
+                          <option value="Belgique">🇧🇪 Belgique</option>
+                          <option value="Canada">🇨🇦 Canada</option>
+                          <option value="Suisse">🇨🇭 Suisse</option>
                         </select>
-                        {form.trade === 'other' && (
-                          <input
-                            name="otherTrade"
-                            value={form.otherTrade}
-                            onChange={handleChange}
-                            placeholder="Précisez votre métier"
-                            required
-                            style={{ marginTop: 8 }}
-                          />
-                        )}
                       </div>
+                    </div>
+                    <div className="form-group">
+                      <label>{t('becomePro.trade')}</label>
+                      <select name="trade" value={form.trade} onChange={handleChange} required>
+                        <option value="">{t('becomePro.selectTrade')}</option>
+                        {trades.map((tr) => (
+                          <option key={tr} value={tr}>{t(`trades.${tr}`)}</option>
+                        ))}
+                        <option value="other">Autre métier…</option>
+                      </select>
+                      {form.trade === 'other' && (
+                        <input
+                          name="otherTrade"
+                          value={form.otherTrade}
+                          onChange={handleChange}
+                          placeholder="Précisez votre métier"
+                          required
+                          style={{ marginTop: 8 }}
+                        />
+                      )}
                     </div>
                     <div className="form-group">
                       <label>{t('becomePro.comments')}</label>

@@ -7,8 +7,8 @@ const router = express.Router();
 // POST /api/projects — public, called by homeowner form
 router.post('/', async (req, res) => {
   try {
-    const { name, email, phone, postalCode, trade, description, budget } = req.body;
-    const project = await Project.create({ name, email, phone, postalCode, trade, description, budget });
+    const { name, email, phone, address, postalCode, country, trade, description, budget } = req.body;
+    const project = await Project.create({ name, email, phone, address, postalCode, country, trade, description, budget });
     res.status(201).json(project);
   } catch (err) {
     res.status(400).json({ message: err.message });

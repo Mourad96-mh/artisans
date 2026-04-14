@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { submitProject } from '../services/api';
 import Seo from '../components/Seo';
+import { useCountry } from '../context/CountryContext';
 
 const contactJsonLd = {
   '@context': 'https://schema.org',
@@ -26,8 +27,9 @@ const trades = ['plumbing', 'electrical', 'painting', 'masonry', 'hvac', 'carpen
 
 export default function ContactPage() {
   const { t } = useTranslation();
+  const { setSelectedCountry, countries } = useCountry();
   const [form, setForm] = useState({
-    name: '', email: '', phone: '', postalCode: '',
+    name: '', email: '', phone: '', address: '', postalCode: '', country: '',
     trade: '', otherTrade: '', description: '', terms: false,
   });
   const [submitted, setSubmitted] = useState(false);
@@ -37,6 +39,10 @@ export default function ContactPage() {
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target;
     setForm((prev) => ({ ...prev, [name]: type === 'checkbox' ? checked : value }));
+    if (name === 'country' && value) {
+      const match = countries.find((c) => c.name === value);
+      if (match) setSelectedCountry(match);
+    }
   };
 
   const handleSubmit = async (e) => {
@@ -47,7 +53,7 @@ export default function ContactPage() {
       const tradeValue = form.trade === 'other' ? form.otherTrade : form.trade;
       await submitProject({ ...form, trade: tradeValue });
       setSubmitted(true);
-      setForm({ name: '', email: '', phone: '', postalCode: '', trade: '', otherTrade: '', description: '', terms: false });
+      setForm({ name: '', email: '', phone: '', address: '', postalCode: '', country: '', trade: '', otherTrade: '', description: '', terms: false });
     } catch (err) {
       setSubmitError(err.message);
     } finally {
@@ -133,8 +139,8 @@ export default function ContactPage() {
                       <input name="name" value={form.name} onChange={handleChange} required />
                     </div>
                     <div className="form-group">
-                      <label>{t('contact.postalCode')}</label>
-                      <input name="postalCode" value={form.postalCode} onChange={handleChange} required />
+                      <label>{t('contact.phone')}</label>
+                      <input name="phone" type="tel" value={form.phone} onChange={handleChange} required />
                     </div>
                   </div>
                   <div className="form-row">
@@ -143,8 +149,24 @@ export default function ContactPage() {
                       <input name="email" type="email" value={form.email} onChange={handleChange} required />
                     </div>
                     <div className="form-group">
-                      <label>{t('contact.phone')}</label>
-                      <input name="phone" type="tel" value={form.phone} onChange={handleChange} required />
+                      <label>{t('contact.country')}</label>
+                      <select name="country" value={form.country} onChange={handleChange} required>
+                        <option value="">{t('contact.selectCountry')}</option>
+                        <option value="France">🇫🇷 France</option>
+                        <option value="Belgique">🇧🇪 Belgique</option>
+                        <option value="Canada">🇨🇦 Canada</option>
+                        <option value="Suisse">🇨🇭 Suisse</option>
+                      </select>
+                    </div>
+                  </div>
+                  <div className="form-row">
+                    <div className="form-group">
+                      <label>{t('contact.address')}</label>
+                      <input name="address" value={form.address} onChange={handleChange} placeholder={t('contact.addressPlaceholder')} />
+                    </div>
+                    <div className="form-group">
+                      <label>{t('contact.postalCode')}</label>
+                      <input name="postalCode" value={form.postalCode} onChange={handleChange} required />
                     </div>
                   </div>
                   <div className="form-group">

@@ -8,9 +8,9 @@ const router = express.Router();
 // POST /api/registrations — public, called by the frontend form
 router.post('/', async (req, res) => {
   try {
-    const { plan, company, firstName, lastName, email, phone, postalCode, trade, comments } = req.body;
+    const { plan, company, firstName, lastName, email, phone, address, postalCode, country, trade, comments } = req.body;
     const registration = await Registration.create({
-      plan, company, firstName, lastName, email, phone, postalCode, trade, comments,
+      plan, company, firstName, lastName, email, phone, address, postalCode, country, trade, comments,
     });
     res.status(201).json(registration);
   } catch (err) {

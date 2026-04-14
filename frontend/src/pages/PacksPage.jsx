@@ -3,6 +3,7 @@ import { useTranslation } from 'react-i18next';
 import { Link } from 'react-router-dom';
 import { submitRegistration } from '../services/api';
 import { useCurrency } from '../hooks/useCurrency';
+import { useCountry } from '../context/CountryContext';
 
 const trades = ['plumbing', 'electrical', 'painting', 'masonry', 'hvac', 'carpentry', 'roofing', 'tiling'];
 
@@ -167,10 +168,11 @@ const leadPacks = [
 export default function PacksPage() {
   const { t } = useTranslation();
   const { currency, convert } = useCurrency();
+  const { setSelectedCountry, countries } = useCountry();
   const [selectedPlan, setSelectedPlan] = useState(null);
   const [form, setForm] = useState({
     company: '', firstName: '', lastName: '',
-    email: '', phone: '', postalCode: '',
+    email: '', phone: '', address: '', postalCode: '', country: '',
     trade: '', comments: '', terms: false,
   });
   const [submitted, setSubmitted] = useState(false);
@@ -188,6 +190,10 @@ export default function PacksPage() {
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target;
     setForm((prev) => ({ ...prev, [name]: type === 'checkbox' ? checked : value }));
+    if (name === 'country' && value) {
+      const match = countries.find((c) => c.name === value);
+      if (match) setSelectedCountry(match);
+    }
   };
 
   const handleSubmit = async (e) => {
@@ -197,7 +203,7 @@ export default function PacksPage() {
     try {
       await submitRegistration({ ...form, plan: selectedPlan });
       setSubmitted(true);
-      setForm({ company: '', firstName: '', lastName: '', email: '', phone: '', postalCode: '', trade: '', comments: '', terms: false });
+      setForm({ company: '', firstName: '', lastName: '', email: '', phone: '', address: '', postalCode: '', country: '', trade: '', comments: '', terms: false });
     } catch (err) {
       setSubmitError(err.message);
     } finally {
@@ -415,20 +421,34 @@ export default function PacksPage() {
                       <input name="phone" type="tel" value={form.phone} onChange={handleChange} required />
                     </div>
                   </div>
+                  <div className="form-group">
+                    <label>{t('becomePro.address')}</label>
+                    <input name="address" value={form.address} onChange={handleChange} placeholder={t('becomePro.addressPlaceholder')} />
+                  </div>
                   <div className="form-row">
                     <div className="form-group">
                       <label>{t('becomePro.postalCode')}</label>
                       <input name="postalCode" value={form.postalCode} onChange={handleChange} required />
                     </div>
                     <div className="form-group">
-                      <label>{t('becomePro.trade')}</label>
-                      <select name="trade" value={form.trade} onChange={handleChange} required>
-                        <option value="">{t('becomePro.selectTrade')}</option>
-                        {trades.map((tr) => (
-                          <option key={tr} value={tr}>{t(`trades.${tr}`)}</option>
-                        ))}
+                      <label>{t('becomePro.country')}</label>
+                      <select name="country" value={form.country} onChange={handleChange} required>
+                        <option value="">{t('becomePro.selectCountry')}</option>
+                        <option value="France">🇫🇷 France</option>
+                        <option value="Belgique">🇧🇪 Belgique</option>
+                        <option value="Canada">🇨🇦 Canada</option>
+                        <option value="Suisse">🇨🇭 Suisse</option>
                       </select>
                     </div>
+                  </div>
+                  <div className="form-group">
+                    <label>{t('becomePro.trade')}</label>
+                    <select name="trade" value={form.trade} onChange={handleChange} required>
+                      <option value="">{t('becomePro.selectTrade')}</option>
+                      {trades.map((tr) => (
+                        <option key={tr} value={tr}>{t(`trades.${tr}`)}</option>
+                      ))}
+                    </select>
                   </div>
                   <div className="form-group">
                     <label>{t('becomePro.comments')}</label>
