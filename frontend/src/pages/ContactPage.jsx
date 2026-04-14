@@ -47,6 +47,7 @@ export default function ContactPage() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    if (!form.country) { setSubmitError(t('contact.selectCountry')); return; }
     setSubmitError('');
     setSubmitting(true);
     try {

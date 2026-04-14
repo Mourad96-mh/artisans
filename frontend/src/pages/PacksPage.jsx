@@ -198,6 +198,7 @@ export default function PacksPage() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    if (!form.country) { setSubmitError(t('becomePro.selectCountry')); return; }
     setSubmitError('');
     setSubmitting(true);
     try {
