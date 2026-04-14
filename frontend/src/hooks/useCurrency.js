@@ -10,9 +10,9 @@ export function useCurrency() {
   const [ipCountry, setIpCountry] = useState(null);
 
   useEffect(() => {
-    fetch('https://ipapi.co/json/')
+    fetch('https://api.country.is/')
       .then((res) => res.json())
-      .then((data) => setIpCountry(data.country_code))
+      .then((data) => setIpCountry(data.country))
       .catch(() => {});
   }, []);
 
