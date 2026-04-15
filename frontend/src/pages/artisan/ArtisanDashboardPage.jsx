@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useArtisanAuth } from '../../context/ArtisanAuthContext';
-import { fetchArtisanDashboard, updateArtisanAvailability } from '../../services/api';
+import { fetchArtisanDashboard, updateArtisanAvailability, changeArtisanPassword } from '../../services/api';
 
 const PLAN_LABELS = {
   horizon: 'Horizon',
@@ -38,6 +38,37 @@ export default function ArtisanDashboardPage() {
   const [nextDate, setNextDate] = useState('');
   const [dateSaving, setDateSaving] = useState(false);
   const [dateStatus, setDateStatus] = useState(null); // { type: 'success'|'error', message: string }
+
+  const [pwCurrent, setPwCurrent] = useState('');
+  const [pwNew, setPwNew] = useState('');
+  const [pwConfirm, setPwConfirm] = useState('');
+  const [pwSaving, setPwSaving] = useState(false);
+  const [pwStatus, setPwStatus] = useState(null); // { type: 'success'|'error', message: string }
+
+  const handlePasswordChange = async (e) => {
+    e.preventDefault();
+    setPwStatus(null);
+    if (pwNew !== pwConfirm) {
+      setPwStatus({ type: 'error', message: 'Les nouveaux mots de passe ne correspondent pas.' });
+      return;
+    }
+    if (pwNew.length < 6) {
+      setPwStatus({ type: 'error', message: 'Le nouveau mot de passe doit contenir au moins 6 caractères.' });
+      return;
+    }
+    setPwSaving(true);
+    try {
+      await changeArtisanPassword(pwCurrent, pwNew);
+      setPwStatus({ type: 'success', message: 'Mot de passe mis à jour avec succès.' });
+      setPwCurrent('');
+      setPwNew('');
+      setPwConfirm('');
+    } catch (err) {
+      setPwStatus({ type: 'error', message: err.message || 'Une erreur est survenue.' });
+    } finally {
+      setPwSaving(false);
+    }
+  };
 
   useEffect(() => {
     fetchArtisanDashboard()
@@ -180,6 +211,75 @@ export default function ArtisanDashboardPage() {
                 </div>
               )}
             </div>
+          </div>
+
+          {/* Change password */}
+          <div className="artisan-section">
+            <h2>Changer le mot de passe</h2>
+            <form onSubmit={handlePasswordChange} className="artisan-availability" style={{ maxWidth: 420 }}>
+              <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
+                <input
+                  type="password"
+                  placeholder="Mot de passe actuel"
+                  value={pwCurrent}
+                  onChange={(e) => { setPwCurrent(e.target.value); setPwStatus(null); }}
+                  className="artisan-date-input"
+                  disabled={pwSaving}
+                  required
+                  style={{ width: '100%' }}
+                />
+                <input
+                  type="password"
+                  placeholder="Nouveau mot de passe"
+                  value={pwNew}
+                  onChange={(e) => { setPwNew(e.target.value); setPwStatus(null); }}
+                  className="artisan-date-input"
+                  disabled={pwSaving}
+                  required
+                  style={{ width: '100%' }}
+                />
+                <input
+                  type="password"
+                  placeholder="Confirmer le nouveau mot de passe"
+                  value={pwConfirm}
+                  onChange={(e) => { setPwConfirm(e.target.value); setPwStatus(null); }}
+                  className="artisan-date-input"
+                  disabled={pwSaving}
+                  required
+                  style={{ width: '100%' }}
+                />
+                <button
+                  type="submit"
+                  className="btn btn-primary"
+                  disabled={pwSaving || !pwCurrent || !pwNew || !pwConfirm}
+                  style={{ display: 'flex', alignItems: 'center', gap: 8, alignSelf: 'flex-start' }}
+                >
+                  {pwSaving && (
+                    <span style={{
+                      width: 15, height: 15, border: '2px solid rgba(255,255,255,0.4)',
+                      borderTopColor: '#fff', borderRadius: '50%',
+                      display: 'inline-block', animation: 'spin 0.7s linear infinite',
+                    }} />
+                  )}
+                  {pwSaving ? 'Enregistrement…' : 'Mettre à jour'}
+                </button>
+              </div>
+              {pwStatus && (
+                <div className={pwStatus.type === 'success' ? 'artisan-date-saved' : 'artisan-date-error'}
+                  style={{ display: 'flex', alignItems: 'flex-start', gap: 10, marginTop: 12 }}>
+                  <span style={{ fontSize: '1.1rem', flexShrink: 0 }}>
+                    {pwStatus.type === 'success' ? '✅' : '❌'}
+                  </span>
+                  <span>{pwStatus.message}</span>
+                  <button
+                    type="button"
+                    onClick={() => setPwStatus(null)}
+                    style={{ marginLeft: 'auto', background: 'none', border: 'none', cursor: 'pointer', opacity: 0.6, fontSize: '1rem', flexShrink: 0 }}
+                    title="Fermer"
+                  >✕</button>
+                </div>
+              )}
+            </form>
           </div>
 
           {/* Projects */}

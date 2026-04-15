@@ -174,6 +174,20 @@ export async function fetchArtisanDashboard() {
   return res.json();
 }
 
+export async function changeArtisanPassword(currentPassword, newPassword) {
+  const res = await fetch(`${BASE}/api/artisan/change-password`, {
+    method: 'PATCH',
+    headers: artisanHeaders(),
+    body: JSON.stringify({ currentPassword, newPassword }),
+  });
+  if (!res.ok) {
+    let msg = 'Erreur serveur';
+    try { msg = (await res.json()).message || msg; } catch {}
+    throw new Error(msg);
+  }
+  return res.json();
+}
+
 export async function updateArtisanAvailability(nextProjectDate) {
   const res = await fetch(`${BASE}/api/artisan/availability`, {
     method: 'PATCH',

@@ -196,6 +196,33 @@ router.patch('/availability', artisanAuth, async (req, res) => {
   }
 });
 
+// ── Artisan: change password ──────────────────────────────
+// PATCH /api/artisan/change-password — artisan only
+router.patch('/change-password', artisanAuth, async (req, res) => {
+  try {
+    const { currentPassword, newPassword } = req.body;
+    if (!currentPassword || !newPassword) {
+      return res.status(400).json({ message: 'Mot de passe actuel et nouveau mot de passe requis.' });
+    }
+    if (newPassword.length < 6) {
+      return res.status(400).json({ message: 'Le nouveau mot de passe doit contenir au moins 6 caractères.' });
+    }
+
+    const artisan = await ArtisanUser.findById(req.artisan.id);
+    if (!artisan) return res.status(404).json({ message: 'Compte introuvable.' });
+
+    const match = await artisan.comparePassword(currentPassword);
+    if (!match) return res.status(401).json({ message: 'Mot de passe actuel incorrect.' });
+
+    artisan.password = newPassword; // pre-save hook will hash it
+    await artisan.save();
+
+    res.json({ message: 'Mot de passe mis à jour avec succès.' });
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
+});
+
 // ── Artisan: verify token ─────────────────────────────────
 // GET /api/artisan/me — artisan only
 router.get('/me', artisanAuth, async (req, res) => {
