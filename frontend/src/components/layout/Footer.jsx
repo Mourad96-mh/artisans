@@ -59,6 +59,7 @@ export default function Footer() {
             <a href="#">{t('footer.legal')}</a>
             <a href="#">{t('footer.privacy')}</a>
             <a href="#">{t('footer.cgv')}</a>
+            <a href="https://www.moudevpro.com" target="_blank" rel="noopener" title="Développeur Web Freelance Maroc">Site créé par MouDev</a>
           </div>
         </div>
       </div>
