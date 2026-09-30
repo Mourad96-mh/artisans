@@ -2,10 +2,7 @@ import { useTranslation } from 'react-i18next';
 import { Link } from 'react-router-dom';
 
 const countries = [
-  { code: 'fr', name: 'France' },
-  { code: 'be', name: 'Belgique' },
   { code: 'ca', name: 'Canada' },
-  { code: 'ch', name: 'Suisse' },
 ];
 
 const heroPhotos = [

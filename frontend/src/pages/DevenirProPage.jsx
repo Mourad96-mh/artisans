@@ -1,5 +1,5 @@
 import { useState, useRef } from 'react';
-import { useTranslation } from 'react-i18next';
+import { useTranslation, Trans } from 'react-i18next';
 import { Link } from 'react-router-dom';
 import { submitRegistration } from '../services/api';
 import Seo from '../components/Seo';
@@ -10,33 +10,33 @@ const proJsonLd = {
   '@context': 'https://schema.org',
   '@type': 'Service',
   name: 'Inscription artisan — Réseau Artisans',
-  description: 'Rejoignez le réseau N°1 des artisans qualifiés. Recevez des projets qualifiés dans votre zone, développez votre activité en France, Belgique, Canada et Suisse.',
+  description: 'Rejoignez le réseau N°1 des artisans qualifiés. Recevez des projets qualifiés dans votre zone, développez votre activité au Canada.',
   provider: {
     '@type': 'Organization',
     name: 'Réseau Artisans',
   },
-  areaServed: ['France', 'Belgique', 'Canada', 'Suisse'],
+  areaServed: ['Canada'],
   offers: [
     {
       '@type': 'Offer',
       name: 'Pack Horizon',
       price: '99',
-      priceCurrency: 'EUR',
-      description: 'Paiement unique à vie, accès espace client, projets qualifiés, puis 29€ par projet',
+      priceCurrency: 'USD',
+      description: 'Paiement unique à vie, accès espace client, projets qualifiés, puis 29 $ par projet',
     },
     {
       '@type': 'Offer',
       name: 'Pack Silver',
       price: '179',
-      priceCurrency: 'EUR',
-      description: '1 projet offert inclus, visibilité prioritaire, puis 39€ par projet',
+      priceCurrency: 'USD',
+      description: '1 projet offert inclus, visibilité prioritaire, puis 39 $ par projet',
     },
     {
       '@type': 'Offer',
       name: 'Pack Premium',
       price: '229',
-      priceCurrency: 'EUR',
-      description: '2 projets offerts inclus, projets exclusifs sans concurrence, puis 39€ par projet',
+      priceCurrency: 'USD',
+      description: '2 projets offerts inclus, projets exclusifs sans concurrence, puis 39 $ par projet',
     },
   ],
 };
@@ -150,7 +150,7 @@ const leadPacks = [
   {
     key: '5_leads_horizon',
     name: 'Pack 5 Leads Horizon',
-    label: 'Idéal pour démarrer (~24€/lead)',
+    label: 'Idéal pour démarrer (~24 $/lead)',
     price: '119',
     popular: false,
     features: [
@@ -163,7 +163,7 @@ const leadPacks = [
   {
     key: '10_leads_horizon',
     name: 'Pack 10 Leads Horizon',
-    label: 'Volume avantageux (~20€/lead)',
+    label: 'Volume avantageux (~20 $/lead)',
     price: '199',
     popular: false,
     features: [
@@ -177,7 +177,7 @@ const leadPacks = [
   {
     key: '5_leads_premium',
     name: 'Pack 5 Leads Premium',
-    label: 'Performance maximale (~40€/lead)',
+    label: 'Performance maximale (~40 $/lead)',
     price: '199',
     popular: true,
     features: [
@@ -193,7 +193,7 @@ const leadPacks = [
   {
     key: '10_leads_premium',
     name: 'Pack 10 Leads Premium',
-    label: 'Performance maximale (~35€/lead)',
+    label: 'Performance maximale (~35 $/lead)',
     price: '349',
     popular: false,
     features: [
@@ -215,7 +215,7 @@ export default function DevenirProPage() {
   const [selectedPlan, setSelectedPlan] = useState(null);
   const [form, setForm] = useState({
     company: '', firstName: '', lastName: '',
-    email: '', phone: '', address: '', postalCode: '', country: '',
+    email: '', phone: '', address: '', postalCode: '', country: 'Canada',
     trade: '', otherTrade: '', comments: '', terms: false,
   });
   const [submitted, setSubmitted] = useState(false);
@@ -248,7 +248,7 @@ export default function DevenirProPage() {
       const tradeValue = form.trade === 'other' ? form.otherTrade : form.trade;
       await submitRegistration({ ...form, trade: tradeValue, plan: selectedPlan });
       setSubmitted(true);
-      setForm({ company: '', firstName: '', lastName: '', email: '', phone: '', address: '', postalCode: '', country: '', trade: '', otherTrade: '', comments: '', terms: false });
+      setForm({ company: '', firstName: '', lastName: '', email: '', phone: '', address: '', postalCode: '', country: 'Canada', trade: '', otherTrade: '', comments: '', terms: false });
     } catch (err) {
       setSubmitError(err.message);
     } finally {
@@ -256,13 +256,15 @@ export default function DevenirProPage() {
     }
   };
 
-  const selectedPlanData = plans.find((p) => p.key === selectedPlan);
+  const selectedPlanData = plans.find((p) => p.key === selectedPlan)
+    || perProjectPlans.find((p) => `perProject_${p.key}` === selectedPlan);
+  const isPerProject = selectedPlan?.startsWith('perProject_');
 
   return (
     <>
       <Seo
         title="Devenir Artisan Pro — Rejoignez le réseau N°1"
-        description="Rejoignez le réseau N°1 des artisans qualifiés en France, Belgique, Canada et Suisse. Recevez des projets qualifiés dans votre zone. Inscription en quelques minutes, accès à vie."
+        description="Rejoignez le réseau N°1 des artisans qualifiés au Canada. Recevez des projets qualifiés dans votre zone. Inscription en quelques minutes, accès à vie."
         keywords="artisans de france, artisan de france label, meilleur artisan de france, artisan solidaire de france, artisan pro belgique, artisan pro québec, artisan pro suisse, rejoindre réseau artisans"
         jsonLd={proJsonLd}
         path="/devenir-pro"
@@ -356,7 +358,7 @@ export default function DevenirProPage() {
                   {plan.features.map((f) => <li key={f}>✅ {f}</li>)}
                 </ul>
                 {plan.price ? (
-                  <button onClick={() => handleSelectPlan(plan.key)} className={`btn ${plan.popular ? 'btn-primary' : 'btn-outline'}`} style={{ width: '100%', justifyContent: 'center' }}>
+                  <button onClick={() => handleSelectPlan(`perProject_${plan.key}`)} className={`btn ${plan.popular ? 'btn-primary' : 'btn-outline'}`} style={{ width: '100%', justifyContent: 'center' }}>
                     {t('packs.choosePlan')}
                   </button>
                 ) : (
@@ -428,7 +430,7 @@ export default function DevenirProPage() {
 
             <div className="selected-plan-reminder">
               <span>✓ {t('packs.choosePlan')} :</span>
-              <strong>{t(`packs.${selectedPlan}`)} — {convert(selectedPlanData.price)} {currency.symbol}</strong>
+              <strong>{t(`packs.${selectedPlan}`)} — {convert(selectedPlanData.price)} {currency.symbol}{isPerProject && ` ${t('packs.perProjectUnit')}`}</strong>
               <button className="selected-plan-change" onClick={() => setSelectedPlan(null)}>
                 {t('becomePro.changePlan')}
               </button>
@@ -524,10 +526,7 @@ export default function DevenirProPage() {
                         <label>{t('becomePro.country')}</label>
                         <select name="country" value={form.country} onChange={handleChange} required>
                           <option value="">{t('becomePro.selectCountry')}</option>
-                          <option value="France">🇫🇷 France</option>
-                          <option value="Belgique">🇧🇪 Belgique</option>
                           <option value="Canada">🇨🇦 Canada</option>
-                          <option value="Suisse">🇨🇭 Suisse</option>
                         </select>
                       </div>
                     </div>
@@ -557,7 +556,7 @@ export default function DevenirProPage() {
                     </div>
                     <label className="form-checkbox">
                       <input type="checkbox" name="terms" checked={form.terms} onChange={handleChange} required />
-                      {t('becomePro.terms')}
+                      <span><Trans i18nKey="becomePro.terms" components={{ link: <Link to="/cgv" target="_blank" rel="noopener" /> }} /></span>
                     </label>
                     {submitError && <div className="admin-error">{submitError}</div>}
                     <button type="submit" className="btn btn-primary" style={{ width: '100%', justifyContent: 'center', marginTop: 16 }} disabled={submitting}>

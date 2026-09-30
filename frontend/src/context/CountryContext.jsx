@@ -3,10 +3,7 @@ import { createContext, useContext, useState } from 'react';
 const CountryContext = createContext(null);
 
 export const countries = [
-  { code: 'FR', flag: '🇫🇷', name: 'France' },
-  { code: 'BE', flag: '🇧🇪', name: 'Belgique' },
   { code: 'CA', flag: '🇨🇦', name: 'Canada' },
-  { code: 'CH', flag: '🇨🇭', name: 'Suisse' },
 ];
 
 export function CountryProvider({ children }) {

@@ -1,29 +1,12 @@
-import { useState, useEffect } from 'react';
-import { useCountry } from '../context/CountryContext';
-
-const CAD_CURRENCY = { code: 'CAD', symbol: 'CA$', rate: 1.5 };
-const CHF_CURRENCY = { code: 'CHF', symbol: 'CHF', rate: 0.95 };
-const EUR_CURRENCY = { code: 'EUR', symbol: '€', rate: 1 };
+// All prices are displayed in US dollars, whatever the visitor's country.
+const USD_CURRENCY = { code: 'USD', symbol: '$' };
 
 export function useCurrency() {
-  const { selectedCountry } = useCountry();
-  const [ipCountry, setIpCountry] = useState(null);
+  const currency = USD_CURRENCY;
 
-  useEffect(() => {
-    fetch('https://api.country.is/')
-      .then((res) => res.json())
-      .then((data) => setIpCountry(data.country))
-      .catch(() => {});
-  }, []);
-
-  const isCanada = selectedCountry?.code === 'CA' || ipCountry === 'CA';
-  const isSwitzerland = selectedCountry?.code === 'CH' || ipCountry === 'CH';
-
-  const currency = isSwitzerland ? CHF_CURRENCY : isCanada ? CAD_CURRENCY : EUR_CURRENCY;
-
-  const convert = (eurPrice) => {
-    if (!eurPrice) return eurPrice;
-    return Math.round(Number(eurPrice) * currency.rate);
+  const convert = (price) => {
+    if (!price) return price;
+    return Math.round(Number(price));
   };
 
   return { currency, convert };

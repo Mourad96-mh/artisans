@@ -6,6 +6,8 @@ const PLAN_LABELS = {
   horizon: 'Horizon',
   silver: 'Silver',
   premium: 'Premium',
+  perProject_horizon: 'Horizon (par projet)',
+  perProject_premium: 'Premium (par projet)',
 };
 
 const TRADES_FR = {
@@ -23,11 +25,11 @@ const PROJECT_STATUS_LABELS = {
 };
 
 const BUDGET_LABELS = {
-  budget_1: 'Moins de 500€',
-  budget_2: '500€ – 2 000€',
-  budget_3: '2 000€ – 5 000€',
-  budget_4: '5 000€ – 15 000€',
-  budget_5: 'Plus de 15 000€',
+  budget_1: 'Moins de 500 $',
+  budget_2: '500 $ – 2 000 $',
+  budget_3: '2 000 $ – 5 000 $',
+  budget_4: '5 000 $ – 15 000 $',
+  budget_5: 'Plus de 15 000 $',
 };
 
 export default function ArtisanDashboardPage() {

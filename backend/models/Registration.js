@@ -9,7 +9,7 @@ function oneYearFromNow() {
 const registrationSchema = new mongoose.Schema({
   plan: {
     type: String,
-    enum: ['horizon', 'silver', 'premium'],
+    enum: ['horizon', 'silver', 'premium', 'perProject_horizon', 'perProject_premium'],
     required: true,
   },
   company: { type: String, required: true },

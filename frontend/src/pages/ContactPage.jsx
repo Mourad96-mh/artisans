@@ -1,5 +1,6 @@
 import { useState } from 'react';
-import { useTranslation } from 'react-i18next';
+import { useTranslation, Trans } from 'react-i18next';
+import { Link } from 'react-router-dom';
 import { submitProject } from '../services/api';
 import Seo from '../components/Seo';
 import { useCountry } from '../context/CountryContext';
@@ -13,12 +14,12 @@ const contactJsonLd = {
     '@type': 'Organization',
     name: 'Réseau Artisans',
   },
-  areaServed: ['France', 'Belgique', 'Canada', 'Suisse'],
+  areaServed: ['Canada'],
   serviceType: ['Plomberie', 'Électricité', 'Peinture', 'Maçonnerie', 'Menuiserie', 'Toiture', 'Carrelage', 'Climatisation'],
   offers: {
     '@type': 'Offer',
     price: '0',
-    priceCurrency: 'EUR',
+    priceCurrency: 'USD',
     description: 'Service 100% gratuit pour les particuliers',
   },
 };
@@ -29,7 +30,7 @@ export default function ContactPage() {
   const { t } = useTranslation();
   const { setSelectedCountry, countries } = useCountry();
   const [form, setForm] = useState({
-    name: '', email: '', phone: '', address: '', postalCode: '', country: '',
+    name: '', email: '', phone: '', address: '', postalCode: '', country: 'Canada',
     trade: '', otherTrade: '', description: '', terms: false,
   });
   const [submitted, setSubmitted] = useState(false);
@@ -54,7 +55,7 @@ export default function ContactPage() {
       const tradeValue = form.trade === 'other' ? form.otherTrade : form.trade;
       await submitProject({ ...form, trade: tradeValue });
       setSubmitted(true);
-      setForm({ name: '', email: '', phone: '', address: '', postalCode: '', country: '', trade: '', otherTrade: '', description: '', terms: false });
+      setForm({ name: '', email: '', phone: '', address: '', postalCode: '', country: 'Canada', trade: '', otherTrade: '', description: '', terms: false });
     } catch (err) {
       setSubmitError(err.message);
     } finally {
@@ -66,8 +67,8 @@ export default function ContactPage() {
     <>
       <Seo
         title="Trouver un artisan qualifié — Devis gratuits sous 48h"
-        description="Vous cherchez un artisan près de chez vous en France, Belgique, Canada ou Suisse ? Décrivez votre projet et recevez jusqu'à 3 devis gratuits sous 48h. Artisans vérifiés et assurés."
-        keywords="trouver un artisan près de chez soi, trouver un artisan pour petit travaux, comment trouver un artisan de confiance, artisan belgique, artisan québec canada, artisan suisse, devis artisan gratuit"
+        description="Vous cherchez un artisan près de chez vous au Canada ? Décrivez votre projet et recevez jusqu'à 3 devis gratuits sous 48h. Artisans vérifiés et assurés."
+        keywords="trouver un artisan près de chez soi, trouver un artisan pour petit travaux, comment trouver un artisan de confiance, artisan québec, artisan canada, artisan montréal, devis artisan gratuit"
         jsonLd={contactJsonLd}
         path="/contact"
       />
@@ -153,10 +154,7 @@ export default function ContactPage() {
                       <label>{t('contact.country')}</label>
                       <select name="country" value={form.country} onChange={handleChange} required>
                         <option value="">{t('contact.selectCountry')}</option>
-                        <option value="France">🇫🇷 France</option>
-                        <option value="Belgique">🇧🇪 Belgique</option>
                         <option value="Canada">🇨🇦 Canada</option>
-                        <option value="Suisse">🇨🇭 Suisse</option>
                       </select>
                     </div>
                   </div>
@@ -197,7 +195,7 @@ export default function ContactPage() {
 
                   <label className="form-checkbox">
                     <input type="checkbox" name="terms" checked={form.terms} onChange={handleChange} required />
-                    {t('contact.terms')}
+                    <span><Trans i18nKey="contact.terms" components={{ link: <Link to="/cgv" target="_blank" rel="noopener" /> }} /></span>
                   </label>
 
                   {submitError && <div className="admin-error">{submitError}</div>}

@@ -1,6 +1,6 @@
 import { useState } from 'react';
 
-const WHATSAPP_NUMBER = '212649702619';
+const WHATSAPP_NUMBER = '14388192725';
 
 const TRADES_FR = {
   plumbing: 'Plomberie',
@@ -220,7 +220,7 @@ export default function WhatsAppWidget() {
                   onChange={userType === 'artisan' ? handleArtisan : handleClient}
                   required
                 />
-                J'accepte les conditions générales d'utilisation
+                <span>J'accepte les <a href="/cgv" target="_blank" rel="noopener">conditions générales de vente</a></span>
               </label>
 
               <button type="submit" className="btn wa-submit-btn">

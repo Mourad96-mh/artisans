@@ -14,16 +14,17 @@ const homeJsonLd = {
   '@context': 'https://schema.org',
   '@type': 'WebPage',
   name: 'Réseau Artisans — Annuaire des artisans qualifiés',
-  description: 'Trouvez un artisan qualifié près de chez vous en France, Belgique, Canada et Suisse. Artisans vérifiés, devis gratuits sous 48h.',
+  description: 'Trouvez un artisan qualifié près de chez vous au Canada. Artisans vérifiés, devis gratuits sous 48h.',
   publisher: {
     '@type': 'Organization',
     name: 'Réseau Artisans',
     address: {
       '@type': 'PostalAddress',
-      streetAddress: "6 Rue d'Armaillé",
-      postalCode: '75017',
-      addressLocality: 'Paris',
-      addressCountry: 'FR',
+      streetAddress: '221 Rue Milton',
+      postalCode: 'H2X 1V5',
+      addressLocality: 'Montréal',
+      addressRegion: 'QC',
+      addressCountry: 'CA',
     },
   },
 };
@@ -32,8 +33,8 @@ export default function HomePage() {
   return (
     <>
       <Seo
-        title="Annuaire des artisans qualifiés — France, Belgique, Canada, Suisse"
-        description="Réseau Artisans, le N°1 pour trouver un artisan de confiance près de chez soi. Plombier, électricien, peintre… Devis gratuits sous 48h en France, Belgique, Canada et Suisse."
+        title="Annuaire des artisans qualifiés — Canada"
+        description="Réseau Artisans, le N°1 pour trouver un artisan de confiance près de chez soi. Plombier, électricien, peintre… Devis gratuits sous 48h au Canada."
         keywords="annuaire artisans france, meilleur artisan de france, artisans de france, artisan solidaire de france, artisan belgique, artisan québec, artisan suisse, trouver un artisan près de chez soi, artisan de confiance"
         jsonLd={homeJsonLd}
         path="/"

@@ -13,11 +13,8 @@ export default function Seo({ title, description, keywords, jsonLd, path = '' })
       {keywords && <meta name="keywords" content={keywords} />}
       <link rel="canonical" href={canonicalUrl} />
 
-      {/* hreflang — 4 French-speaking countries + x-default */}
-      <link rel="alternate" hreflang="fr-FR" href={canonicalUrl} />
-      <link rel="alternate" hreflang="fr-BE" href={canonicalUrl} />
+      {/* hreflang — Canada + x-default */}
       <link rel="alternate" hreflang="fr-CA" href={canonicalUrl} />
-      <link rel="alternate" hreflang="fr-CH" href={canonicalUrl} />
       <link rel="alternate" hreflang="x-default" href={canonicalUrl} />
 
       {/* Open Graph — multi-locale */}
@@ -25,10 +22,7 @@ export default function Seo({ title, description, keywords, jsonLd, path = '' })
       <meta property="og:description" content={description} />
       <meta property="og:type" content="website" />
       <meta property="og:url" content={canonicalUrl} />
-      <meta property="og:locale" content="fr_FR" />
-      <meta property="og:locale:alternate" content="fr_BE" />
-      <meta property="og:locale:alternate" content="fr_CA" />
-      <meta property="og:locale:alternate" content="fr_CH" />
+      <meta property="og:locale" content="fr_CA" />
 
       {/* Twitter */}
       <meta name="twitter:card" content="summary_large_image" />

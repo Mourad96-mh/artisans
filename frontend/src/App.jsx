@@ -14,6 +14,7 @@ import HowItWorksPage from './pages/HowItWorksPage';
 import DevenirProPage from './pages/DevenirProPage';
 import PacksPage from './pages/PacksPage';
 import ContactPage from './pages/ContactPage';
+import LegalPage from './pages/LegalPage';
 import AdminLoginPage from './pages/admin/AdminLoginPage';
 import AdminDashboardPage from './pages/admin/AdminDashboardPage';
 import WhatsAppWidget from './components/WhatsAppWidget';
@@ -41,6 +42,8 @@ function PublicRoutes() {
           <Route path="/devenir-pro" element={<DevenirProPage />} />
           <Route path="/packs" element={<PacksPage />} />
           <Route path="/contact" element={<ContactPage />} />
+          <Route path="/mentions-legales" element={<LegalPage doc="mentions" />} />
+          <Route path="/cgv" element={<LegalPage doc="cgv" />} />
         </Routes>
       </main>
       <Footer />

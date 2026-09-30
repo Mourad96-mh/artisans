@@ -46,7 +46,7 @@ export default function Footer() {
           <div className="footer-col">
             <h4>Contact</h4>
             <ul>
-              <li><a href="tel:0100000000">{t('contact.phoneNumber')}</a></li>
+              <li><a href="tel:+14388192725">{t('contact.phoneNumber')}</a></li>
               <li><a href="mailto:contact@reseauxartizano.com">{t('contact.emailAddress')}</a></li>
               <li><a href="#">{t('contact.officeAddress')}</a></li>
             </ul>
@@ -56,9 +56,9 @@ export default function Footer() {
         <div className="footer-bottom">
           <span>© {year} union professionnels. {t('footer.rights')}.</span>
           <div className="footer-bottom-links">
-            <a href="#">{t('footer.legal')}</a>
+            <Link to="/mentions-legales">{t('footer.legal')}</Link>
             <a href="#">{t('footer.privacy')}</a>
-            <a href="#">{t('footer.cgv')}</a>
+            <Link to="/cgv">{t('footer.cgv')}</Link>
             <a href="https://www.moudevpro.com" target="_blank" rel="noopener" title="Développeur Web Freelance Maroc">Site créé par MouDev</a>
           </div>
         </div>

@@ -1,5 +1,5 @@
 import { useState, useRef } from 'react';
-import { useTranslation } from 'react-i18next';
+import { useTranslation, Trans } from 'react-i18next';
 import { Link } from 'react-router-dom';
 import { submitRegistration } from '../services/api';
 import { useCurrency } from '../hooks/useCurrency';
@@ -10,7 +10,7 @@ const trades = ['plumbing', 'electrical', 'painting', 'masonry', 'hvac', 'carpen
 const plans = [
   {
     key: 'horizon',
-    price: '99',
+    price: '129',
     popular: false,
     badge: 'RECOMMANDÉ',
     features: [
@@ -24,7 +24,7 @@ const plans = [
   },
   {
     key: 'silver',
-    price: '179',
+    price: '200.99',
     popular: false,
     badge: null,
     subtitle: 'À partir de 20 projets • Grands comptes',
@@ -61,7 +61,7 @@ const plans = [
 const perProjectPlans = [
   {
     key: 'horizon',
-    price: '29',
+    price: '49',
     label: 'Pour débuter',
     popular: false,
     badge: null,
@@ -74,7 +74,7 @@ const perProjectPlans = [
   },
   {
     key: 'premium',
-    price: '39',
+    price: '99.99',
     label: 'Projet exclusif sans concurrence',
     popular: true,
     badge: null,
@@ -106,26 +106,26 @@ const perProjectPlans = [
 const leadPacks = [
   {
     key: '5_leads_horizon',
-    name: 'Pack 5 Leads Horizon',
-    label: 'Idéal pour démarrer (~24€/lead)',
-    price: '119',
+    name: 'Pack 5 Projets Horizon',
+    label: 'Idéal pour démarrer (~30 $/projet)',
+    price: '149.99',
     popular: false,
     features: [
-      '5 leads qualifiés livrés sous 24h',
-      'Leads dans votre zone d\'intervention',
+      '5 projets qualifiés livrés sous 24h',
+      'Projets dans votre zone d\'intervention',
       'Accès via votre espace client',
       'Coordonnées complètes du prospect',
     ],
   },
   {
     key: '10_leads_horizon',
-    name: 'Pack 10 Leads Horizon',
-    label: 'Volume avantageux (~20€/lead)',
-    price: '199',
+    name: 'Pack 10 Projets Horizon',
+    label: 'Volume avantageux (~30 $/projet)',
+    price: '299.99',
     popular: false,
     features: [
-      '10 leads qualifiés livrés sous 24h',
-      'Leads dans votre zone d\'intervention',
+      '10 projets qualifiés livrés sous 24h',
+      'Projets dans votre zone d\'intervention',
       'Accès via votre espace client',
       'Coordonnées complètes du prospect',
       'Volume idéal pour booster votre activité',
@@ -133,34 +133,34 @@ const leadPacks = [
   },
   {
     key: '5_leads_premium',
-    name: 'Pack 5 Leads Premium',
-    label: 'Performance maximale (~40€/lead)',
-    price: '199',
+    name: 'Pack 5 Projets Premium',
+    label: 'Performance maximale (~60 $/projet)',
+    price: '299.99',
     popular: true,
     features: [
-      '5 leads premium livrés sous 24h',
-      'Leads dans votre zone d\'intervention',
+      '5 projets premium livrés sous 24h',
+      'Projets dans votre zone d\'intervention',
       'Accès via votre espace client',
       'Coordonnées complètes du prospect',
-      'Leads à forte intention d\'achat',
+      'Projets à forte intention d\'achat',
       'Taux de conversion supérieur',
-      'Leads exclusifs qualifiés + ciblés',
+      'Projets exclusifs qualifiés + ciblés',
     ],
   },
   {
     key: '10_leads_premium',
-    name: 'Pack 10 Leads Premium',
-    label: 'Performance maximale (~35€/lead)',
-    price: '349',
+    name: 'Pack 10 Projets Premium',
+    label: 'Performance maximale (~60 $/projet)',
+    price: '599',
     popular: false,
     features: [
-      '10 leads premium livrés sous 24h',
-      'Leads dans votre zone d\'intervention',
+      '10 projets premium livrés sous 24h',
+      'Projets dans votre zone d\'intervention',
       'Accès via votre espace client',
       'Coordonnées complètes du prospect',
-      'Leads à forte intention d\'achat',
+      'Projets à forte intention d\'achat',
       'Taux de conversion supérieur',
-      'Leads exclusifs qualifiés + ciblés',
+      'Projets exclusifs qualifiés + ciblés',
     ],
   },
 ];
@@ -172,7 +172,7 @@ export default function PacksPage() {
   const [selectedPlan, setSelectedPlan] = useState(null);
   const [form, setForm] = useState({
     company: '', firstName: '', lastName: '',
-    email: '', phone: '', address: '', postalCode: '', country: '',
+    email: '', phone: '', address: '', postalCode: '', country: 'Canada',
     trade: '', comments: '', terms: false,
   });
   const [submitted, setSubmitted] = useState(false);
@@ -204,7 +204,7 @@ export default function PacksPage() {
     try {
       await submitRegistration({ ...form, plan: selectedPlan });
       setSubmitted(true);
-      setForm({ company: '', firstName: '', lastName: '', email: '', phone: '', address: '', postalCode: '', country: '', trade: '', comments: '', terms: false });
+      setForm({ company: '', firstName: '', lastName: '', email: '', phone: '', address: '', postalCode: '', country: 'Canada', trade: '', comments: '', terms: false });
     } catch (err) {
       setSubmitError(err.message);
     } finally {
@@ -212,7 +212,9 @@ export default function PacksPage() {
     }
   };
 
-  const selectedPlanData = plans.find((p) => p.key === selectedPlan);
+  const selectedPlanData = plans.find((p) => p.key === selectedPlan)
+    || perProjectPlans.find((p) => `perProject_${p.key}` === selectedPlan);
+  const isPerProject = selectedPlan?.startsWith('perProject_');
 
   return (
     <>
@@ -305,7 +307,7 @@ export default function PacksPage() {
                   {plan.features.map((f) => <li key={f}>✅ {f}</li>)}
                 </ul>
                 {plan.price ? (
-                  <button onClick={() => handleSelectPlan(plan.key)} className={`btn ${plan.popular ? 'btn-primary' : 'btn-outline'}`} style={{ width: '100%', justifyContent: 'center' }}>
+                  <button onClick={() => handleSelectPlan(`perProject_${plan.key}`)} className={`btn ${plan.popular ? 'btn-primary' : 'btn-outline'}`} style={{ width: '100%', justifyContent: 'center' }}>
                     {t('packs.choosePlan')}
                   </button>
                 ) : (
@@ -374,7 +376,7 @@ export default function PacksPage() {
           <div className="container">
             <div className="selected-plan-reminder">
               <span>✓ {t('packs.choosePlan')} :</span>
-              <strong>{t(`packs.${selectedPlan}`)} — {convert(selectedPlanData.price)} {currency.symbol}</strong>
+              <strong>{t(`packs.${selectedPlan}`)} — {convert(selectedPlanData.price)} {currency.symbol}{isPerProject && ` ${t('packs.perProjectUnit')}`}</strong>
               <button className="selected-plan-change" onClick={() => setSelectedPlan(null)}>
                 {t('becomePro.changePlan')}
               </button>
@@ -435,10 +437,7 @@ export default function PacksPage() {
                       <label>{t('becomePro.country')}</label>
                       <select name="country" value={form.country} onChange={handleChange} required>
                         <option value="">{t('becomePro.selectCountry')}</option>
-                        <option value="France">🇫🇷 France</option>
-                        <option value="Belgique">🇧🇪 Belgique</option>
                         <option value="Canada">🇨🇦 Canada</option>
-                        <option value="Suisse">🇨🇭 Suisse</option>
                       </select>
                     </div>
                   </div>
@@ -457,7 +456,7 @@ export default function PacksPage() {
                   </div>
                   <label className="form-checkbox">
                     <input type="checkbox" name="terms" checked={form.terms} onChange={handleChange} required />
-                    {t('becomePro.terms')}
+                    <span><Trans i18nKey="becomePro.terms" components={{ link: <Link to="/cgv" target="_blank" rel="noopener" /> }} /></span>
                   </label>
                   {submitError && <div className="admin-error">{submitError}</div>}
                   <button type="submit" className="btn btn-primary" style={{ width: '100%', justifyContent: 'center' }} disabled={submitting}>

@@ -23,6 +23,14 @@ const PROJECT_STATUSES = {
   cancelled: { label: 'Annulé', className: 'status-rejected' },
 };
 
+const PLAN_LABELS = {
+  horizon: 'Horizon',
+  silver: 'Silver',
+  premium: 'Premium',
+  perProject_horizon: 'Horizon (par projet)',
+  perProject_premium: 'Premium (par projet)',
+};
+
 const TRADES_FR = {
   plumbing: 'Plomberie', electrical: 'Électricité', painting: 'Peinture',
   masonry: 'Maçonnerie', hvac: 'Climatisation', carpentry: 'Menuiserie',
@@ -320,6 +328,14 @@ export default function AdminDashboardPage() {
                   <span className="admin-stat-value">{regStats.byPlan?.find((p) => p._id === 'horizon')?.count || 0}</span>
                   <span className="admin-stat-label">Pack Horizon</span>
                 </div>
+                <div className="admin-stat-card admin-stat-card--plan">
+                  <span className="admin-stat-value">{regStats.byPlan?.find((p) => p._id === 'perProject_premium')?.count || 0}</span>
+                  <span className="admin-stat-label">Premium par projet</span>
+                </div>
+                <div className="admin-stat-card admin-stat-card--plan">
+                  <span className="admin-stat-value">{regStats.byPlan?.find((p) => p._id === 'perProject_horizon')?.count || 0}</span>
+                  <span className="admin-stat-label">Horizon par projet</span>
+                </div>
               </div>
             )}
 
@@ -337,6 +353,8 @@ export default function AdminDashboardPage() {
                 <option value="horizon">Horizon</option>
                 <option value="silver">Silver</option>
                 <option value="premium">Premium</option>
+                <option value="perProject_horizon">Horizon (par projet)</option>
+                <option value="perProject_premium">Premium (par projet)</option>
               </select>
               <button className="btn btn-outline" onClick={loadRegistrations}>Actualiser</button>
             </div>
@@ -366,7 +384,7 @@ export default function AdminDashboardPage() {
                           <td>{TRADES_FR[r.trade] || r.trade}</td>
                           <td>
                             <span className={`plan-badge plan-badge--${r.plan}`}>
-                              {r.plan === 'premium' ? 'Premium' : r.plan === 'silver' ? 'Silver' : 'Horizon'}
+                              {PLAN_LABELS[r.plan] || r.plan}
                             </span>
                           </td>
                           <td>
@@ -520,7 +538,7 @@ export default function AdminDashboardPage() {
                               {artisanAccounts.filter((a) => a.registration).map((a) => (
                                 <option key={a._id} value={a._id}>
                                   {a.registration.company || a.email}
-                                  {a.registration.plan ? ` — ${a.registration.plan === 'premium' ? 'Premium' : a.registration.plan === 'silver' ? 'Silver' : 'Horizon'}` : ''}
+                                  {a.registration.plan ? ` — ${PLAN_LABELS[a.registration.plan] || a.registration.plan}` : ''}
                                 </option>
                               ))}
                             </select>
