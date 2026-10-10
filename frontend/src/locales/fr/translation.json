@@ -29,11 +29,11 @@
   },
   "trust": {
     "title": "Nos partenaires & certifications",
-    "decennale": "Assurance Décennale",
-    "rge": "Artisans Certifiés RGE",
+    "liability": "Assurance responsabilité civile",
+    "rbq": "Licences RBQ vérifiées",
     "garantie": "Garantie Travaux",
     "paiement": "Paiement Sécurisé",
-    "qualibat": "Qualibat Vérifié"
+    "neq": "Entreprises enregistrées (NEQ)"
   },
   "howItWorks": {
     "title": "Comment ça marche",

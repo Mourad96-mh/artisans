@@ -413,7 +413,7 @@ export default function AdminDashboardPage() {
                               const isPast = d < new Date();
                               return (
                                 <span style={{ fontWeight: 600, fontSize: '0.85rem', color: isPast ? '#dc2626' : '#059669' }}>
-                                  {isPast ? '⚠ ' : '📅 '}{d.toLocaleDateString('fr-FR')}
+                                  {isPast ? '⚠ ' : '📅 '}{d.toLocaleDateString('fr-CA')}
                                 </span>
                               );
                             })()}
@@ -442,7 +442,7 @@ export default function AdminDashboardPage() {
                               );
                             })()}
                           </td>
-                          <td>{new Date(r.createdAt).toLocaleDateString('fr-FR')}</td>
+                          <td>{new Date(r.createdAt).toLocaleDateString('fr-CA')}</td>
                           <td><button className="admin-delete-btn" onClick={() => handleRegDelete(r._id)}>🗑</button></td>
                         </tr>
                         );
@@ -551,7 +551,7 @@ export default function AdminDashboardPage() {
                               ))}
                             </select>
                           </td>
-                          <td>{new Date(p.createdAt).toLocaleDateString('fr-FR')}</td>
+                          <td>{new Date(p.createdAt).toLocaleDateString('fr-CA')}</td>
                           <td><button className="admin-delete-btn" onClick={() => handleProjDelete(p._id)}>🗑</button></td>
                         </tr>
                       ))}
@@ -587,10 +587,10 @@ export default function AdminDashboardPage() {
                       </div>
                       <div style={{ fontSize: '0.84rem', color: '#78350f', marginTop: 2 }}>
                         Disponible à partir du{' '}
-                        <strong>{new Date(n.nextProjectDate).toLocaleDateString('fr-FR', { day: 'numeric', month: 'long', year: 'numeric' })}</strong>
+                        <strong>{new Date(n.nextProjectDate).toLocaleDateString('fr-CA', { day: 'numeric', month: 'long', year: 'numeric' })}</strong>
                       </div>
                       <div style={{ fontSize: '0.78rem', color: 'var(--color-gray)', marginTop: 4 }}>
-                        {n.artisanEmail} · {new Date(n.createdAt).toLocaleDateString('fr-FR', { day: 'numeric', month: 'short', hour: '2-digit', minute: '2-digit' })}
+                        {n.artisanEmail} · {new Date(n.createdAt).toLocaleDateString('fr-CA', { day: 'numeric', month: 'short', hour: '2-digit', minute: '2-digit' })}
                       </div>
                     </div>
                     <button

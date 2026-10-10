@@ -90,7 +90,7 @@ export default function ArtisanDashboardPage() {
     setDateStatus(null);
     try {
       await updateArtisanAvailability(nextDate);
-      setDateStatus({ type: 'success', message: `Disponibilité enregistrée pour le ${new Date(nextDate).toLocaleDateString('fr-FR', { day: 'numeric', month: 'long', year: 'numeric' })}. L'équipe a été notifiée.` });
+      setDateStatus({ type: 'success', message: `Disponibilité enregistrée pour le ${new Date(nextDate).toLocaleDateString('fr-CA', { day: 'numeric', month: 'long', year: 'numeric' })}. L'équipe a été notifiée.` });
     } catch (err) {
       setDateStatus({ type: 'error', message: err.message || 'Une erreur est survenue. Veuillez réessayer.' });
     } finally {
@@ -302,7 +302,7 @@ export default function ArtisanDashboardPage() {
                         {PROJECT_STATUS_LABELS[p.status]}
                       </span>
                       <span className="artisan-project-date">
-                        {new Date(p.createdAt).toLocaleDateString('fr-FR')}
+                        {new Date(p.createdAt).toLocaleDateString('fr-CA')}
                       </span>
                     </div>
                     <h3>{TRADES_FR[p.trade] || p.trade}</h3>

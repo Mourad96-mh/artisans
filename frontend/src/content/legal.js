@@ -227,7 +227,7 @@ export const LEGAL_CONTENT = {
       intro: {
         paragraphs: [
           "ARTI CONNECT accorde une importance particulière à la protection des renseignements personnels de ses utilisateurs, clients, prospects, artisans et partenaires. La présente politique explique quelles données nous pouvons recueillir, pourquoi nous les utilisons, avec qui elles peuvent être communiquées, combien de temps elles sont conservées et quels sont vos droits.",
-          "Cette politique s'applique aux utilisateurs de nos services, notamment en France, au Canada et au Québec, sous réserve des lois applicables selon le lieu de résidence de la personne concernée.",
+          "Cette politique s'applique aux utilisateurs de nos services, notamment au Canada et au Québec, sous réserve des lois applicables selon le lieu de résidence de la personne concernée.",
         ],
       },
       sections: [
@@ -468,7 +468,7 @@ export const LEGAL_CONTENT = {
       intro: {
         paragraphs: [
           'ARTI CONNECT places particular importance on protecting the personal information of its users, customers, prospects, tradespeople and partners. This policy explains what data we may collect, why we use it, with whom it may be shared, how long it is kept and what your rights are.',
-          'This policy applies to users of our services, including in France, Canada and Québec, subject to the laws applicable where the individual concerned resides.',
+          'This policy applies to users of our services, including in Canada and Québec, subject to the laws applicable where the individual concerned resides.',
         ],
       },
       sections: [

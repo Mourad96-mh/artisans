@@ -265,7 +265,7 @@ export default function DevenirProPage() {
       <Seo
         title="Devenir Artisan Pro — Rejoignez le réseau N°1"
         description="Rejoignez le réseau N°1 des artisans qualifiés au Canada. Recevez des projets qualifiés dans votre zone. Inscription en quelques minutes, accès à vie."
-        keywords="artisans de france, artisan de france label, meilleur artisan de france, artisan solidaire de france, artisan pro belgique, artisan pro québec, artisan pro suisse, rejoindre réseau artisans"
+        keywords="devenir artisan pro canada, réseau artisans québec, trouver des clients entrepreneur, artisan pro montréal, leads rénovation québec, rejoindre réseau artisans"
         jsonLd={proJsonLd}
         path="/devenir-pro"
       />

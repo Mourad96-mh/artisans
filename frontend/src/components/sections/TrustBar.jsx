@@ -1,11 +1,11 @@
 import { useTranslation } from 'react-i18next';
 
 const badges = [
-  { icon: '🛡️', key: 'decennale' },
-  { icon: '🌿', key: 'rge' },
+  { icon: '🛡️', key: 'liability' },
+  { icon: '🌿', key: 'rbq' },
   { icon: '✅', key: 'garantie' },
   { icon: '🔒', key: 'paiement' },
-  { icon: '🏅', key: 'qualibat' },
+  { icon: '🏅', key: 'neq' },
 ];
 
 export default function TrustBar() {

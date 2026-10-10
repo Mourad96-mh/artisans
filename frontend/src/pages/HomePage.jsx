@@ -35,7 +35,7 @@ export default function HomePage() {
       <Seo
         title="Annuaire des artisans qualifiés — Canada"
         description="Réseau Artisans, le N°1 pour trouver un artisan de confiance près de chez soi. Plombier, électricien, peintre… Devis gratuits sous 48h au Canada."
-        keywords="annuaire artisans france, meilleur artisan de france, artisans de france, artisan solidaire de france, artisan belgique, artisan québec, artisan suisse, trouver un artisan près de chez soi, artisan de confiance"
+        keywords="annuaire artisans canada, artisan québec, artisan montréal, trouver un artisan près de chez soi, artisan de confiance, entrepreneur rénovation québec, plombier montréal, électricien québec"
         jsonLd={homeJsonLd}
         path="/"
       />

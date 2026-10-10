@@ -135,7 +135,7 @@ export default function WhatsAppWidget() {
                   <div className="form-row">
                     <div className="form-group">
                       <label>Code postal</label>
-                      <input name="postalCode" value={artisan.postalCode} onChange={handleArtisan} required placeholder="75000" />
+                      <input name="postalCode" value={artisan.postalCode} onChange={handleArtisan} required placeholder="H2X 1V5" />
                     </div>
                     <div className="form-group">
                       <label>Métier</label>
@@ -172,7 +172,7 @@ export default function WhatsAppWidget() {
                   <div className="form-row">
                     <div className="form-group">
                       <label>Code postal</label>
-                      <input name="postalCode" value={client.postalCode} onChange={handleClient} required placeholder="75000" />
+                      <input name="postalCode" value={client.postalCode} onChange={handleClient} required placeholder="H2X 1V5" />
                     </div>
                     <div className="form-group">
                       <label>Email</label>
