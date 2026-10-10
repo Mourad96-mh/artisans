@@ -44,6 +44,7 @@ function PublicRoutes() {
           <Route path="/contact" element={<ContactPage />} />
           <Route path="/mentions-legales" element={<LegalPage doc="mentions" />} />
           <Route path="/cgv" element={<LegalPage doc="cgv" />} />
+          <Route path="/politique-de-confidentialite" element={<LegalPage doc="privacy" />} />
         </Routes>
       </main>
       <Footer />

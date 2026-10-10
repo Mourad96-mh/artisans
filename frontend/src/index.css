@@ -1936,6 +1936,14 @@ input, textarea, select { font-family: inherit; }
   line-height: 1.75;
   margin-bottom: 12px;
 }
+.legal-meta { font-size: 0.95rem; font-style: italic; }
+.legal-list {
+  list-style: disc;
+  padding-left: 22px;
+  margin-bottom: 12px;
+  color: var(--color-dark-2);
+  line-height: 1.75;
+}
 .legal-lines {
   display: flex;
   flex-direction: column;

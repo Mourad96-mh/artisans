@@ -57,7 +57,7 @@ export default function Footer() {
           <span>© {year} union professionnels. {t('footer.rights')}.</span>
           <div className="footer-bottom-links">
             <Link to="/mentions-legales">{t('footer.legal')}</Link>
-            <a href="#">{t('footer.privacy')}</a>
+            <Link to="/politique-de-confidentialite">{t('footer.privacy')}</Link>
             <Link to="/cgv">{t('footer.cgv')}</Link>
             <a href="https://www.moudevpro.com" target="_blank" rel="noopener" title="Développeur Web Freelance Maroc">Site créé par MouDev</a>
           </div>

@@ -19,7 +19,7 @@ const contactJsonLd = {
   offers: {
     '@type': 'Offer',
     price: '0',
-    priceCurrency: 'USD',
+    priceCurrency: 'CAD',
     description: 'Service 100% gratuit pour les particuliers',
   },
 };

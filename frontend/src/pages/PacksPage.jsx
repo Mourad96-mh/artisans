@@ -10,7 +10,7 @@ const trades = ['plumbing', 'electrical', 'painting', 'masonry', 'hvac', 'carpen
 const plans = [
   {
     key: 'horizon',
-    price: '129',
+    price: '239.99',
     popular: false,
     badge: 'RECOMMANDÉ',
     features: [
@@ -24,7 +24,7 @@ const plans = [
   },
   {
     key: 'silver',
-    price: '200.99',
+    price: '399',
     popular: false,
     badge: null,
     subtitle: 'À partir de 20 projets • Grands comptes',
@@ -41,7 +41,7 @@ const plans = [
   },
   {
     key: 'premium',
-    price: '229',
+    price: '399',
     popular: true,
     badge: null,
     features: [
@@ -61,7 +61,7 @@ const plans = [
 const perProjectPlans = [
   {
     key: 'horizon',
-    price: '49',
+    price: '94.99',
     label: 'Pour débuter',
     popular: false,
     badge: null,
@@ -74,7 +74,7 @@ const perProjectPlans = [
   },
   {
     key: 'premium',
-    price: '99.99',
+    price: '189.99',
     label: 'Projet exclusif sans concurrence',
     popular: true,
     badge: null,
@@ -107,8 +107,8 @@ const leadPacks = [
   {
     key: '5_leads_horizon',
     name: 'Pack 5 Projets Horizon',
-    label: 'Idéal pour démarrer (~30 $/projet)',
-    price: '149.99',
+    label: 'Idéal pour démarrer (~64 $ CA/projet)',
+    price: '319',
     popular: false,
     features: [
       '5 projets qualifiés livrés sous 24h',
@@ -120,8 +120,8 @@ const leadPacks = [
   {
     key: '10_leads_horizon',
     name: 'Pack 10 Projets Horizon',
-    label: 'Volume avantageux (~30 $/projet)',
-    price: '299.99',
+    label: 'Volume avantageux (~64 $ CA/projet)',
+    price: '639',
     popular: false,
     features: [
       '10 projets qualifiés livrés sous 24h',
@@ -134,8 +134,8 @@ const leadPacks = [
   {
     key: '5_leads_premium',
     name: 'Pack 5 Projets Premium',
-    label: 'Performance maximale (~60 $/projet)',
-    price: '299.99',
+    label: 'Performance maximale (~128 $ CA/projet)',
+    price: '639',
     popular: true,
     features: [
       '5 projets premium livrés sous 24h',
@@ -150,8 +150,8 @@ const leadPacks = [
   {
     key: '10_leads_premium',
     name: 'Pack 10 Projets Premium',
-    label: 'Performance maximale (~60 $/projet)',
-    price: '599',
+    label: 'Performance maximale (~112 $ CA/projet)',
+    price: '1120',
     popular: false,
     features: [
       '10 projets premium livrés sous 24h',

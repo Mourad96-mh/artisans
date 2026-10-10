@@ -8,7 +8,7 @@ const artisanTestimonials = [
       en: "Thanks to RéseauArtisans, I tripled my revenue in just 6 months. The projects are genuinely qualified and the clients are serious.",
     },
     name: 'Mohamed B.',
-    role: { fr: 'Plombier, Lyon', en: 'Plumber, Lyon' },
+    role: { fr: 'Plombier, Montréal', en: 'Plumber, Montréal' },
     photo: 'https://randomuser.me/api/portraits/men/32.jpg',
   },
   {
@@ -17,7 +17,7 @@ const artisanTestimonials = [
       en: "The support is responsive and the leads are quality. I recommend it to any tradesperson who wants to grow their business quickly.",
     },
     name: 'Sophie L.',
-    role: { fr: 'Électricienne, Paris', en: 'Electrician, Paris' },
+    role: { fr: 'Électricienne, Québec', en: 'Electrician, Quebec City' },
     photo: 'https://randomuser.me/api/portraits/women/44.jpg',
   },
   {
@@ -26,7 +26,7 @@ const artisanTestimonials = [
       en: "The platform is easy to use and projects come in regularly. It's a real time saver for finding clients.",
     },
     name: 'Karim A.',
-    role: { fr: 'Peintre, Marseille', en: 'Painter, Marseille' },
+    role: { fr: 'Peintre, Laval', en: 'Painter, Laval' },
     photo: 'https://randomuser.me/api/portraits/men/76.jpg',
   },
   {
@@ -35,7 +35,7 @@ const artisanTestimonials = [
       en: "Before, I spent hours looking for jobs. Now projects come to me. My schedule is booked 3 weeks out!",
     },
     name: 'Julien F.',
-    role: { fr: 'Menuisier, Nantes', en: 'Carpenter, Nantes' },
+    role: { fr: 'Menuisier, Gatineau', en: 'Carpenter, Gatineau' },
     photo: 'https://randomuser.me/api/portraits/men/18.jpg',
   },
   {
@@ -44,7 +44,7 @@ const artisanTestimonials = [
       en: "I appreciate the transparency on projects before accepting. You know exactly what you're doing and the client is already briefed. Very professional.",
     },
     name: 'Fatima O.',
-    role: { fr: 'Carreleur, Strasbourg', en: 'Tiler, Strasbourg' },
+    role: { fr: 'Carreleur, Sherbrooke', en: 'Tiler, Sherbrooke' },
     photo: 'https://randomuser.me/api/portraits/women/55.jpg',
   },
   {
@@ -53,7 +53,7 @@ const artisanTestimonials = [
       en: "Clients through this network are serious and respectful. No time wasted, jobs go smoothly and payments are on time.",
     },
     name: 'David M.',
-    role: { fr: 'Couvreur, Lille', en: 'Roofer, Lille' },
+    role: { fr: 'Couvreur, Ottawa', en: 'Roofer, Ottawa' },
     photo: 'https://randomuser.me/api/portraits/men/61.jpg',
   },
 ];
@@ -65,7 +65,7 @@ const clientTestimonials = [
       en: "I found an excellent mason in under 24 hours. The project was completed on time and on budget. Truly impressive!",
     },
     name: 'Claire D.',
-    role: { fr: 'Propriétaire, Bordeaux', en: 'Homeowner, Bordeaux' },
+    role: { fr: 'Propriétaire, Longueuil', en: 'Homeowner, Longueuil' },
     photo: 'https://randomuser.me/api/portraits/women/68.jpg',
   },
   {
@@ -74,7 +74,7 @@ const clientTestimonials = [
       en: "The process is very reassuring: tradespeople are vetted, quotes are clear and payment is secure. This is the only platform I use now.",
     },
     name: 'Thomas R.',
-    role: { fr: "Gérant d'immeuble, Paris", en: 'Building Manager, Paris' },
+    role: { fr: "Gérant d'immeuble, Toronto", en: 'Building Manager, Toronto' },
     photo: 'https://randomuser.me/api/portraits/men/52.jpg',
   },
   {
@@ -83,7 +83,7 @@ const clientTestimonials = [
       en: "Bathroom renovation done in one week. The tradesperson was punctual, tidy and professional. Highly recommend.",
     },
     name: 'Nadia M.',
-    role: { fr: 'Particulier, Toulouse', en: 'Homeowner, Toulouse' },
+    role: { fr: 'Particulier, Trois-Rivières', en: 'Homeowner, Trois-Rivières' },
     photo: 'https://randomuser.me/api/portraits/women/26.jpg',
   },
   {
@@ -92,7 +92,7 @@ const clientTestimonials = [
       en: "I've used other platforms before, but here the tradespeople are truly vetted. The quality of work was impeccable.",
     },
     name: 'Pierre V.',
-    role: { fr: 'Propriétaire bailleur, Lyon', en: 'Landlord, Lyon' },
+    role: { fr: 'Propriétaire bailleur, Montréal', en: 'Landlord, Montréal' },
     photo: 'https://randomuser.me/api/portraits/men/41.jpg',
   },
   {
@@ -101,7 +101,7 @@ const clientTestimonials = [
       en: "Quote received in 2 hours, work started the next day. My electrical installation is up to code and I got a clear invoice. Perfect.",
     },
     name: 'Amina K.',
-    role: { fr: 'Locataire, Montpellier', en: 'Tenant, Montpellier' },
+    role: { fr: 'Locataire, Lévis', en: 'Tenant, Lévis' },
     photo: 'https://randomuser.me/api/portraits/women/37.jpg',
   },
   {
@@ -110,7 +110,7 @@ const clientTestimonials = [
       en: "Simple, fast and reliable. I've used two different tradespeople through this network and both times I was fully satisfied.",
     },
     name: 'Lucas B.',
-    role: { fr: 'Particulier, Nice', en: 'Homeowner, Nice' },
+    role: { fr: 'Particulier, Vancouver', en: 'Homeowner, Vancouver' },
     photo: 'https://randomuser.me/api/portraits/men/29.jpg',
   },
 ];

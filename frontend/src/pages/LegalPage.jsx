@@ -3,7 +3,7 @@ import { useTranslation } from 'react-i18next';
 import Seo from '../components/Seo';
 import { LEGAL_CONTENT } from '../content/legal';
 
-const PATHS = { mentions: '/mentions-legales', cgv: '/cgv' };
+const PATHS = { mentions: '/mentions-legales', cgv: '/cgv', privacy: '/politique-de-confidentialite' };
 
 function Lines({ lines }) {
   return (
@@ -36,14 +36,28 @@ export default function LegalPage({ doc }) {
       </div>
       <section className="section-sm">
         <div className="container legal-content">
-          {content.intro && <Lines lines={content.intro.lines} />}
+          {content.updated && <p className="legal-meta">{content.updated}</p>}
+          {content.intro?.paragraphs?.map((p, i) => (
+            <p key={i}>{p}</p>
+          ))}
+          {content.intro?.lines && <Lines lines={content.intro.lines} />}
           {content.sections.map((section) => (
             <div key={section.title} className="legal-section">
               <h2>{section.title}</h2>
               {section.paragraphs.map((p, i) => (
                 <p key={i}>{p}</p>
               ))}
+              {section.items && (
+                <ul className="legal-list">
+                  {section.items.map((item, i) => (
+                    <li key={i}>{item}</li>
+                  ))}
+                </ul>
+              )}
               {section.lines && <Lines lines={section.lines} />}
+              {section.after?.map((p, i) => (
+                <p key={i}>{p}</p>
+              ))}
             </div>
           ))}
         </div>

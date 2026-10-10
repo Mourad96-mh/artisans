@@ -20,23 +20,23 @@ const proJsonLd = {
     {
       '@type': 'Offer',
       name: 'Pack Horizon',
-      price: '99',
-      priceCurrency: 'USD',
-      description: 'Paiement unique à vie, accès espace client, projets qualifiés, puis 29 $ par projet',
+      price: '239.99',
+      priceCurrency: 'CAD',
+      description: 'Paiement unique à vie, accès espace client, projets qualifiés',
     },
     {
       '@type': 'Offer',
       name: 'Pack Silver',
-      price: '179',
-      priceCurrency: 'USD',
-      description: '1 projet offert inclus, visibilité prioritaire, puis 39 $ par projet',
+      price: '399',
+      priceCurrency: 'CAD',
+      description: '1 projet offert inclus, visibilité prioritaire',
     },
     {
       '@type': 'Offer',
       name: 'Pack Premium',
-      price: '229',
-      priceCurrency: 'USD',
-      description: '2 projets offerts inclus, projets exclusifs sans concurrence, puis 39 $ par projet',
+      price: '399',
+      priceCurrency: 'CAD',
+      description: '2 projets offerts inclus, projets exclusifs sans concurrence',
     },
   ],
 };
@@ -53,7 +53,7 @@ const benefits = [
 const plans = [
   {
     key: 'horizon',
-    price: '99',
+    price: '239.99',
     popular: false,
     badge: 'RECOMMANDÉ',
     features: [
@@ -67,7 +67,7 @@ const plans = [
   },
   {
     key: 'silver',
-    price: '179',
+    price: '399',
     popular: false,
     badge: null,
     subtitle: 'À partir de 20 projets • Grands comptes',
@@ -84,7 +84,7 @@ const plans = [
   },
   {
     key: 'premium',
-    price: '229',
+    price: '399',
     popular: true,
     badge: null,
     features: [
@@ -104,7 +104,7 @@ const plans = [
 const perProjectPlans = [
   {
     key: 'horizon',
-    price: '29',
+    price: '94.99',
     label: 'Pour débuter',
     popular: false,
     badge: null,
@@ -117,7 +117,7 @@ const perProjectPlans = [
   },
   {
     key: 'premium',
-    price: '79',
+    price: '189.99',
     label: 'Projet exclusif sans concurrence',
     popular: true,
     badge: null,
@@ -150,8 +150,8 @@ const leadPacks = [
   {
     key: '5_leads_horizon',
     name: 'Pack 5 Leads Horizon',
-    label: 'Idéal pour démarrer (~24 $/lead)',
-    price: '119',
+    label: 'Idéal pour démarrer (~64 $ CA/lead)',
+    price: '319',
     popular: false,
     features: [
       '5 leads qualifiés livrés sous 24h',
@@ -163,8 +163,8 @@ const leadPacks = [
   {
     key: '10_leads_horizon',
     name: 'Pack 10 Leads Horizon',
-    label: 'Volume avantageux (~20 $/lead)',
-    price: '199',
+    label: 'Volume avantageux (~64 $ CA/lead)',
+    price: '639',
     popular: false,
     features: [
       '10 leads qualifiés livrés sous 24h',
@@ -177,8 +177,8 @@ const leadPacks = [
   {
     key: '5_leads_premium',
     name: 'Pack 5 Leads Premium',
-    label: 'Performance maximale (~40 $/lead)',
-    price: '199',
+    label: 'Performance maximale (~128 $ CA/lead)',
+    price: '639',
     popular: true,
     features: [
       '5 leads premium livrés sous 24h',
@@ -193,8 +193,8 @@ const leadPacks = [
   {
     key: '10_leads_premium',
     name: 'Pack 10 Leads Premium',
-    label: 'Performance maximale (~35 $/lead)',
-    price: '349',
+    label: 'Performance maximale (~112 $ CA/lead)',
+    price: '1120',
     popular: false,
     features: [
       '10 leads premium livrés sous 24h',
